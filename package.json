@@ -4,7 +4,7 @@
   "description": "A graph knowledge base implemented in neo4j.",
   "main": "index.js",
   "scripts": {
-    "test": "istanbul cover ./node_modules/.bin/_mocha -x **/chart/** -- -u tdd -R spec"
+    "test": "istanbul cover ./node_modules/.bin/_mocha -- -u tdd -R spec"
   },
   "repository": {
     "type": "git",
@@ -24,11 +24,13 @@
   },
   "homepage": "https://github.com/kengz/neo4jKB#readme",
   "dependencies": {
+    "bluebird": "^3.1.1",
     "lomath": "^0.2.7",
     "reqscraper": "^0.1.0"
   },
   "devDependencies": {
     "chai": "^3.4.1",
+    "chai-as-promised": "^5.2.0",
     "mocha": "^2.3.4"
   }
 }
