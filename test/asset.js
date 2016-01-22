@@ -31,7 +31,23 @@ var A = {
   propE: cons.legalize({ name: 'E', hash_by: 'name' }),
 
   flush: flush,
+  clearTest: clearTest,
   buildGraph: buildGraph
+}
+
+// helper function to flush the resolved args from buildGrapg
+function flush() {
+  return 
+}
+
+// clear out the test nodes
+function clearTest() {
+  return new Promise(function(resolve, reject) {
+    A.KB.query('MATCH (a:test) DETACH DELETE a')
+      .then(flush)
+      .then(resolve)
+      .catch(reject)
+  })
 }
 
 // build the graph: first clear the test, then buildNodes, buildEdges
@@ -44,20 +60,6 @@ function buildGraph() {
     .then(flush)
     .then(resolve)
     .catch(reject)
-  })
-}
-
-// helper function to flush the resolved args from buildGrapg
-function flush() {
-  return 
-}
-
-// clear out the test nodes
-function clearTest() {
-  return new Promise(function(resolve, reject) {
-    A.KB.query('MATCH (a:test) DETACH DELETE a')
-      .then(resolve)
-      .catch(reject)
   })
 }
 

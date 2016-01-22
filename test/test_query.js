@@ -3,6 +3,10 @@ suite('query', function() {
     A.buildGraph().then(done)
   })
 
+  after(function(done) {
+    A.clearTest().then(done)
+  })
+
   test('(query)', function() {
     return KB.query('MATCH (a:test) RETURN a.name').then(KB.beautify).then(KB.string).should.eventually.equal('[{"columns":["a.name"],"data":[[1],[2],[3],["A"],["B"],["C"],["D"],["Z"]]}]')
   })

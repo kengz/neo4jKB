@@ -10,3 +10,5 @@ global.should = chai.should()
 // import assets and test subject
 global.A = require('./asset')
 global.KB = A.KB
+
+// console.log(_.functions(KB))
