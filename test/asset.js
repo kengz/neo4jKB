@@ -67,14 +67,14 @@ function buildGraph() {
 function buildNodes() {
   return new Promise(function(resolve, reject) {
     A.KB.addNode(
-      [A.propA, A.labelNode],
-      [A.propB, A.labelNode],
-      [A.propC, A.labelNode],
-      [A.propD, A.labelNode],
-      [A.propZ, A.labelNode],
-      [A.prop1, A.labelNode],
-      [A.prop2, A.labelNode],
-      [A.prop3, A.labelNode]
+      [[A.propA, A.labelNode]],
+      [[A.propB, A.labelNode]],
+      [[A.propC, A.labelNode]],
+      [[A.propD, A.labelNode]],
+      [[A.propZ, A.labelNode]],
+      [[A.prop1, A.labelNode]],
+      [[A.prop2, A.labelNode]],
+      [[A.prop3, A.labelNode]]
       )
       // .then(A.KB.log)
       .then(resolve)
