@@ -27,6 +27,7 @@ prop3 = cons.legalize({ name: 3, hash_by: 'name' })
 labelEdge = 'test_next',
 labelEdge2 = 'test_next_2',
 propE = cons.legalize({ name: 'E', hash_by: 'name' });
+propE2 = cons.legalize({ name: 'E2', hash_by: 'name' });
 
 
 var A = {
@@ -52,6 +53,9 @@ var A = {
   labelEdge: labelEdge,
   labelEdge2: labelEdge2,
   propE: propE,
+  propE2: propE2,
+  propLabelE: [propE, labelEdge],
+  propLabelE2: [propE2, labelEdge2],
 
   flush: flush,
   clearTest: clearTest,
@@ -110,20 +114,20 @@ function buildEdges() {
   return new Promise(function(resolve, reject) {
     A.KB.addEdge(
       // A -> {1,2,3}
-      [[A.propE, A.labelEdge], [A.propA], [A.prop1]],
-      [[A.propE, A.labelEdge], [A.propA], [A.prop2]],
-      [[A.propE, A.labelEdge], [A.propA], [A.prop3]],
+      [[A.propA], [A.propE, A.labelEdge], [A.prop1]],
+      [[A.propA], [A.propE, A.labelEdge], [A.prop2]],
+      [[A.propA], [A.propE, A.labelEdge], [A.prop3]],
       // 1 -> 2 -> 3 -> 1
-      [[A.propE, A.labelEdge], [A.prop1], [A.prop2]],
-      [[A.propE, A.labelEdge], [A.prop2], [A.prop3]],
-      [[A.propE, A.labelEdge], [A.prop3], [A.prop1]],
+      [[A.prop1], [A.propE, A.labelEdge], [A.prop2]],
+      [[A.prop2], [A.propE, A.labelEdge], [A.prop3]],
+      [[A.prop3], [A.propE, A.labelEdge], [A.prop1]],
       // A -> B -> C -> D -> Z
-      [[A.propE, A.labelEdge], [A.propA], [A.propB]],
-      [[A.propE, A.labelEdge], [A.propB], [A.propC]],
-      [[A.propE, A.labelEdge], [A.propC], [A.propD]],
-      [[A.propE, A.labelEdge], [A.propD], [A.propZ]],
+      [[A.propA], [A.propE, A.labelEdge], [A.propB]],
+      [[A.propB], [A.propE, A.labelEdge], [A.propC]],
+      [[A.propC], [A.propE, A.labelEdge], [A.propD]],
+      [[A.propD], [A.propE, A.labelEdge], [A.propZ]],
       // D -[:test_next_2]-> Z
-      [[A.propE, A.labelEdge2], [A.propD], [A.propZ]]
+      [[A.propD], [A.propE2, A.labelEdge2], [A.propZ]]
       )
       // .then(A.KB.log)
       .then(resolve)

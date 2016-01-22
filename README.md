@@ -11,6 +11,7 @@ More setup instructions soon. See if can do sudo install Java and brew neo4j fro
 
 ## Todo
 - test all
+- just use the single pullgraph method to add all add get
 - finish other macro micro graph property methods
 - test and travis needs to setup neo4j too
 - prevent SQL injection in labels and other methods.
