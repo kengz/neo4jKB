@@ -15,20 +15,43 @@ var cons = require('../lib/constrain')
 // A -> B -> C -> D -> Z
 // D -[:test_next_2]-> Z
 
+var labelNode = 'test',
+propA = cons.legalize({ name: 'A', hash_by: 'name' }),
+propB = cons.legalize({ name: 'B', hash_by: 'name' }),
+propC = cons.legalize({ name: 'C', hash_by: 'name' }),
+propD = cons.legalize({ name: 'D', hash_by: 'name' }),
+propZ = cons.legalize({ name: 'Z', hash_by: 'name' }),
+prop1 = cons.legalize({ name: 1, hash_by: 'name' }),
+prop2 = cons.legalize({ name: 2, hash_by: 'name' }),
+prop3 = cons.legalize({ name: 3, hash_by: 'name' })
+labelEdge = 'test_next',
+labelEdge2 = 'test_next_2',
+propE = cons.legalize({ name: 'E', hash_by: 'name' });
+
+
 var A = {
   KB: require('../index')({ NEO4J_AUTH: 'neo4j:0000' }),
-  labelNode: 'test',
-  propA: cons.legalize({ name: 'A', hash_by: 'name' }),
-  propB: cons.legalize({ name: 'B', hash_by: 'name' }),
-  propC: cons.legalize({ name: 'C', hash_by: 'name' }),
-  propD: cons.legalize({ name: 'D', hash_by: 'name' }),
-  propZ: cons.legalize({ name: 'Z', hash_by: 'name' }),
-  prop1: cons.legalize({ name: 1, hash_by: 'name' }),
-  prop2: cons.legalize({ name: 2, hash_by: 'name' }),
-  prop3: cons.legalize({ name: 3, hash_by: 'name' }),
-  labelEdge: 'test_next',
-  labelEdge2: 'test_next_2',
-  propE: cons.legalize({ name: 'E', hash_by: 'name' }),
+  labelNode: labelNode,
+  propA: propA,
+  propB: propB,
+  propC: propC,
+  propD: propD,
+  propZ: propZ,
+  prop1: prop1,
+  prop2: prop2,
+  prop3: prop3,
+  propLabelA: [propA, labelNode],
+  propLabelB: [propB, labelNode],
+  propLabelC: [propC, labelNode],
+  propLabelD: [propD, labelNode],
+  propLabelZ: [propZ, labelNode],
+  propLabel1: [prop1, labelNode],
+  propLabel2: [prop2, labelNode],
+  propLabel3: [prop3, labelNode],
+
+  labelEdge: labelEdge,
+  labelEdge2: labelEdge2,
+  propE: propE,
 
   flush: flush,
   clearTest: clearTest,

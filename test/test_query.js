@@ -1,9 +1,10 @@
 suite('query', function() {
-  before(function(done) {
+
+  suiteSetup(function(done) {
     A.buildGraph().then(done)
   })
 
-  after(function(done) {
+  suiteTeardown(function(done) {
     A.clearTest().then(done)
   })
 
