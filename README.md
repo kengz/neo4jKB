@@ -10,10 +10,13 @@ npm i --save neo4jkb
 More setup instructions soon. See if can do sudo install Java and brew neo4j from npm thru the install executable.
 
 ## Todo
+- storing timestamp in DB: what format; in JSON returned: what format?
 - beautify returned res and error, split
 - test all
+- test and travis needs to setup neo4j too
 - prevent SQL injection in labels and other methods.
 - usage docs
+- chronos method
 - user lookup function by ID etc
 - search search search
 - permission, belongs_to, context tag
@@ -28,6 +31,19 @@ More setup instructions soon. See if can do sudo install Java and brew neo4j fro
 - k what bout unit testing the KB part? Setup neo4j?
 - Travis CI
 - Use `coveralls` pushing to Slack.
+
+
+## Changelog
+
+`Jan 2016`
+
+- added `mocha` using `chai` library for test; coverage by `istanbul`.
+- **create/update** KB graph methods
+- **search** KB graph methods; do whatever u want with the results: `<filter>` then `RETURN|DELETE|DETACH DELETE`
+- **delete** KB graph methods from **search**
+- **set/remove** KB graph methods
+- **shortest-paths** KB graph methods
+- timestamp in `cons.now` uses the ISO 8601 format, e.g. `2016-01-22T15:07:25.550Z`
 
 
 ## KB standard
