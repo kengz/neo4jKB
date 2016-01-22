@@ -10,7 +10,6 @@ npm i --save neo4jkb
 More setup instructions soon. See if can do sudo install Java and brew neo4j from npm thru the install executable.
 
 ## Todo
-- build graph for test
 - test all
 - finish other macro micro graph property methods
 - test and travis needs to setup neo4j too

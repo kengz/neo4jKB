@@ -1,0 +1,5 @@
+--require ./test/common.js
+--reporter spec
+--ui tdd
+--recursive
+--colors
