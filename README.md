@@ -20,7 +20,6 @@ More setup instructions soon. See if can do sudo install Java and brew neo4j fro
 - user lookup function by ID etc
 - search search search
 - permission, belongs_to, context tag, priority level
-- all add method use the special batchquery; unify all other get methods
 - release the set of permissible ops from constrain.js
 - neo4j separate DB dont use root. For future multiple deployments too
 - node, edge, graph ops without reverting to `query()`
