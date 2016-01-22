@@ -10,27 +10,27 @@ npm i --save neo4jkb
 More setup instructions soon. See if can do sudo install Java and brew neo4j from npm thru the install executable.
 
 ## Todo
-- storing timestamp in DB: what format; in JSON returned: what format?
-- beautify returned res and error, split
+- build graph for test
 - test all
+- finish other macro micro graph property methods
 - test and travis needs to setup neo4j too
 - prevent SQL injection in labels and other methods.
 - usage docs
+- write about special escape chars from query string too, like ':' in labels.
 - chronos method
 - user lookup function by ID etc
 - search search search
-- permission, belongs_to, context tag
-- finish other macro micro graph property methods
+- permission, belongs_to, context tag, priority level
 - all add method use the special batchquery; unify all other get methods
 - release the set of permissible ops from constrain.js
 - neo4j separate DB dont use root. For future multiple deployments too
-- write auto constrain-imposer. use 'MATCH (n) RETURN DISTINCT(labels(n))' to make every hash unique programmatically
 - node, edge, graph ops without reverting to `query()`
 - db migration and recovery
 - open up AWS server
 - k what bout unit testing the KB part? Setup neo4j?
 - Travis CI
 - Use `coveralls` pushing to Slack.
+- need unflattenJSON method in lomath
 
 
 ## Changelog
@@ -74,6 +74,7 @@ all nodes and edges must have the following fields in their `prop`:
 - `created_by`: The hash-string of the `prop`'s updator. Doesn't show in `constrain.js` but is built in to `KB_builder.js`.
 - `created_when`: The timestamp of when the author created the `prop`. Doesn't show in `constrain.js` but is built in to `KB_builder.js`.
 - external of `prop`, each `node` must have at least zero Labels, and each edge exactly one Label.
+- note that although `hash_by` and `hash` are required for edges, it's optional to obey it, i.e. you can utilize the `hash` in your custom `query()`, but `addEdge` will allow for duplicate edge `hash`. In fact, `addEdge` hashes by using `LabelE` and the hash of the source and target nodes, i.e. there can be only one edge of a unique label between two distinct nodes.
 
 
 ##### Permissible graph operations:
