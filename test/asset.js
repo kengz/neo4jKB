@@ -23,11 +23,22 @@ propD = cons.legalize({ name: 'D', hash_by: 'name' }),
 propZ = cons.legalize({ name: 'Z', hash_by: 'name' }),
 prop1 = cons.legalize({ name: 1, hash_by: 'name' }),
 prop2 = cons.legalize({ name: 2, hash_by: 'name' }),
-prop3 = cons.legalize({ name: 3, hash_by: 'name' })
+prop3 = cons.legalize({ name: 3, hash_by: 'name' }),
+propAi = { name: 'A' },
+propBi = { name: 'B' },
+propCi = { name: 'C' },
+propDi = { name: 'D' },
+propZi = { name: 'Z' },
+prop1i = { name: 1 },
+prop2i = { name: 2 },
+prop3i = { name: 3 },
 labelEdge = 'test_next',
 labelEdge2 = 'test_next_2',
-propE = cons.legalize({ name: 'E', hash_by: 'name' });
-propE2 = cons.legalize({ name: 'E2', hash_by: 'name' });
+propE = cons.legalize({ name: 'E', hash_by: 'name' }),
+propE2 = cons.legalize({ name: 'E2', hash_by: 'name' }),
+propEi = { name: 'E' },
+propE2i = { name: 'E2' };
+distE = '*..2'
 
 
 var A = {
@@ -49,6 +60,14 @@ var A = {
   propLabel1: [prop1, labelNode],
   propLabel2: [prop2, labelNode],
   propLabel3: [prop3, labelNode],
+  propLabelAi: [propAi, labelNode],
+  propLabelBi: [propBi, labelNode],
+  propLabelCi: [propCi, labelNode],
+  propLabelDi: [propDi, labelNode],
+  propLabelZi: [propZi, labelNode],
+  propLabel1i: [prop1i, labelNode],
+  propLabel2i: [prop2i, labelNode],
+  propLabel3i: [prop3i, labelNode],
 
   labelEdge: labelEdge,
   labelEdge2: labelEdge2,
@@ -56,6 +75,9 @@ var A = {
   propE2: propE2,
   propLabelE: [propE, labelEdge],
   propLabelE2: [propE2, labelEdge2],
+  propLabelEi: [propEi, labelEdge],
+  propLabelE2i: [propE2i, labelEdge2],
+  distLabelE: [distE, labelEdge],
 
   flush: flush,
   clearTest: clearTest,
@@ -161,7 +183,7 @@ function extractOneRes(obj) {
   // use assign
   var data = obj.data;
   var extract = _.map(data, function(o) {
-    return _.map(_.get(o, 'row'), function(row){
+    return _.map(_.flattenDeep(_.get(o, 'row')), function(row){
       return _.get(row, 'name') || row
     })
   })

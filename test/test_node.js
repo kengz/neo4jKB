@@ -1,9 +1,9 @@
-// suite('pushNode', function() {
-//   test('(propLabel)', function() {
-//     _.flow(KB.pushNode, A.extractQP, A.log)(A.propLabelA).should.equal('["MERGE (a:test  {hash: {prop}.hash}) ON CREATE SET a = {prop}, a.created_by={prop}.updated_by, a.created_when={prop}.updated_when ON MATCH SET a += {prop} RETURN a",{"prop":{"name":"A","hash_by":"name","hash":"A","updated_by":"bot"}}]')
-//   })
+suite('pushNode', function() {
+  test('(propLabel)', function() {
+    () => { KB.pushNode(A.propLabelAi) }.should.throw(Error)
+  })
 
-// })
+})
 
 
 suite('addNode', function() {
