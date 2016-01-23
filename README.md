@@ -1,5 +1,5 @@
 # neo4jKB
-[![Build Status](https://travis-ci.org/kengz/neo4jKB.svg?branch=master)](https://travis-ci.org/kengz/neo4jKB)
+[![Build Status](https://travis-ci.org/kengz/neo4jKB.svg?branch=master)](https://travis-ci.org/kengz/neo4jKB) [![Coverage Status](https://coveralls.io/repos/github/kengz/neo4jKB/badge.svg?branch=master)](https://coveralls.io/github/kengz/neo4jKB?branch=master)
 
 A graph knowledge base implemented in neo4j.
 
