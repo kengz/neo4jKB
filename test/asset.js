@@ -59,7 +59,11 @@ var A = {
 
   flush: flush,
   clearTest: clearTest,
-  buildGraph: buildGraph
+  buildGraph: buildGraph,
+  log: log,
+  string: string,
+  extractRes: extractRes,
+  extractQP: extractQP
 }
 
 // helper function to flush the resolved args from buildGrapg
@@ -83,7 +87,7 @@ function buildGraph() {
     clearTest()
     .then(buildNodes)
     .then(buildEdges)
-    // .then(A.KB.log)
+    // .then(A.log)
     .then(flush)
     .then(resolve)
     .catch(reject)
@@ -103,7 +107,7 @@ function buildNodes() {
       [[A.prop2, A.labelNode]],
       [[A.prop3, A.labelNode]]
       )
-      // .then(A.KB.log)
+      // .then(A.log)
       .then(resolve)
       .catch(reject)
   })
@@ -129,11 +133,52 @@ function buildEdges() {
       // D -[:test_next_2]-> Z
       [[A.propD], [A.propE2, A.labelEdge2], [A.propZ]]
       )
-      // .then(A.KB.log)
+      // .then(A.log)
       .then(resolve)
       .catch(reject)
   })
 }
 
+
+// Simple log for the first argument after JSON.stringify it. Returns the string.
+function log() {
+  var str = JSON.stringify(...arguments)
+  console.log(str)
+  return str;
+}
+
+// Shorthand to JSON.stringify the argument. Use in place of log to not log to output.
+function string(arg) {
+  return JSON.stringify(arg)
+}
+
+// extract neoRes.
+function extractRes(neoRes) {
+  return _.map(neoRes, extractOneRes)
+}
+// extract a single neoRes object.
+function extractOneRes(obj) {
+  // use assign
+  var data = obj.data;
+  var extract = _.map(data, function(o) {
+    return _.map(_.get(o, 'row'), function(row){
+      return _.get(row, 'name') || row
+    })
+  })
+  var sorted = extract.sort()
+  _.assign(obj, {
+    data: sorted
+  })
+  return obj
+}
+
+// extract a query-param pair
+function extractQP(arr) {
+  var query = arr[0], param = arr[1]
+  param = _.mapValues(param, function(prop) {
+    return _.omit(prop, ['updated_when', 'created_when'])
+  })
+  return [query, param]
+}
 
 module.exports = A;
