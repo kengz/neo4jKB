@@ -52,15 +52,15 @@ var propB = {name: 'B', hash_by: 'name'}
 // legalize the prop objects subject to constraints
 cons.legalize(propA)
 cons.legalize(propB)
-addNode(propA, 'alpha').then(_.flow(JSON.stringify, console.log))
+addNode(propA, 'alpha').then(KB.log)
 // {"results":[{"columns":["u"],"data":[{"row":[{"created_when":1452801392345,"updated_by":"tester","name":"A","hash_by":"name","created_by":"tester","hash":"A","updated_when":1452802417919}]}]}],"errors":[]}
 // The node is added/updated to KB.
 
 // batch node query by array of pairs
-addNode([propA, 'alpha'], [propB, 'alpha']).then(_.flow(JSON.stringify, console.log))
+addNode([propA, 'alpha'], [propB, 'alpha']).then(KB.log)
 
 // equivalently
-addNode([[propA, 'alpha'], [propB, 'alpha']]).then(_.flow(JSON.stringify, console.log))
+addNode([[propA, 'alpha'], [propB, 'alpha']]).then(KB.log)
 // {"results":[{"columns":["u"],"data":[{"row":[{"created_when":1452801392345,"updated_by":"tester","name":"A","hash_by":"name","created_by":"tester","hash":"A","updated_when":1452803465461}]}]},{"columns":["u"],"data":[{"row":[{"created_when":1452803465462,"name":"B","updated_by":"tester","hash_by":"name","created_by":"tester","hash":"B","updated_when":1452803465462}]}]}],"errors":[]}
 // propA node is updated; propB node is added.
 ```
@@ -84,21 +84,21 @@ var prop3 = {name: 'B', hash_by: 'name'}
 // no constrain needed when getting node from KB
 
 get nodes from just the prop
-getNode(prop2).then(_.flow(JSON.stringify, console.log))
+getNode(prop2).then(KB.log)
 // {"results":[{"columns":["u"],"data":[{"row":[{"created_when":1452807183847,"updated_by":"bot","name":"A","hash_by":"name","created_by":"tester","hash":"A","updated_when":1453244315302}]}]}],"errors":[]}
 
 get nodes from just the label
-getNode('alpha').then(_.flow(JSON.stringify, console.log))
+getNode('alpha').then(KB.log)
 // {"results":[{"columns":["u"],"data":[{"row":[{"created_when":1452807183847,"updated_by":"bot","name":"A","hash_by":"name","created_by":"tester","hash":"A","updated_when":1453244315302}]},{"row":[{"created_when":1452807183848,"updated_by":"bot","name":"B","hash_by":"name","created_by":"tester","hash":"B","updated_when":1453244315304}]},{"row":[{"created_when":1453143013572,"updated_by":"bot","name":"C","hash_by":"name","created_by":"bot","hash":"C","updated_when":1453143013572}]}]}],"errors":[]}
 
 // get nodes from a propLabel pair
-getNode(prop2, 'alpha').then(_.flow(JSON.stringify, console.log))
+getNode(prop2, 'alpha').then(KB.log)
 // {"results":[{"columns":["u"],"data":[{"row":[{"created_when":1452801392345,"updated_by":"tester","name":"A","hash_by":"name","created_by":"tester","hash":"A","updated_when":1452803465461}]}]}],"errors":[]}
 
 // get nodes from many propLabel pairs
-getNode([prop2, 'alpha'], [prop3, 'alpha']).then(_.flow(JSON.stringify, console.log))
+getNode([prop2, 'alpha'], [prop3, 'alpha']).then(KB.log)
 // equivalently
-getNode([[prop2, 'alpha'], [prop3, 'alpha']]).then(_.flow(JSON.stringify, console.log))
+getNode([[prop2, 'alpha'], [prop3, 'alpha']]).then(KB.log)
 // {"results":[{"columns":["u"],"data":[{"row":[{"created_when":1452801392345,"updated_by":"tester","name":"A","hash_by":"name","created_by":"tester","hash":"A","updated_when":1452803465461}]}]},{"columns":["u"],"data":[{"row":[{"created_when":1452803465462,"updated_by":"tester","name":"B","hash_by":"name","created_by":"tester","hash":"B","updated_when":1452803465462}]}]}],"errors":[]}
 ```
 <a name="addEdge"></a>
@@ -128,30 +128,30 @@ var labelA = 'alpha'
 var labelB = 'alpha'
 
 // add edge E from node A to node B
-addEdge([propA, labelA], [propE, labelE], [propB, labelB]).then(_.flow(JSON.stringify, console.log))
+addEdge([propA, labelA], [propE, labelE], [propB, labelB]).then(KB.log)
 // {"results":[{"columns":["e"],"data":[{"row":[{"created_when":1452825908415,"updated_by":"bot","name":"lexicography","hash_by":"name","created_by":"tester","hash":"lexicography","updated_when":1452884323471}]}]},{"columns":["e"],"data":[{"row":[{"created_when":1452884323471,"name":"lexicography","updated_by":"bot","hash_by":"name","created_by":"bot","hash":"lexicography","updated_when":1452884323471}]}]}],"errors":[]}
 // The edge labeled 'next' is added/updated to KB.
 
 Constraints only for propE, required Label for edge E. No constraints or requirements for nodes A and B.
-// addEdge([propE, labelE], [labelA], [propB, labelB]).then(_.flow(JSON.stringify, console.log))
+// addEdge([propE, labelE], [labelA], [propB, labelB]).then(KB.log)
 // {"results":[{"columns":["e"],"data":[{"row":[{"created_when":1452825908415,"updated_by":"bot","name":"lexicography","hash_by":"name","created_by":"tester","hash":"lexicography","updated_when":1453259876938}]},{"row":[{"created_when":1453259876938,"name":"lexicography","updated_by":"bot","hash_by":"name","created_by":"bot","hash":"lexicography","updated_when":1453259876938}]},{"row":[{"created_when":1453259876938,"name":"lexicography","updated_by":"bot","hash_by":"name","created_by":"bot","hash":"lexicography","updated_when":1453259876938}]}]}],"errors":[]}
 
 // batch edge query by array of pairs
 addEdge(
 [ [propA, labelA], [propE, labelE], [propB, labelB] ], 
 [ [propA, labelA], [propE, labelE2], [propB, labelB] ]
-).then(_.flow(JSON.stringify, console.log))
+).then(KB.log)
 
 // equivalently
 addEdge([
 [ [propA, labelA], [propE, labelE], [propB, labelB] ], 
 [ [propA, labelA], [propE, labelE2], [propB, labelB] ]
-]).then(_.flow(JSON.stringify, console.log))
+]).then(KB.log)
 // {"results":[{"columns":["e"],"data":[{"row":[{"created_when":1452825908415,"updated_by":"bot","name":"lexicography","hash_by":"name","created_by":"tester","hash":"lexicography","updated_when":1452884568091}]}]},{"columns":["e"],"data":[{"row":[{"created_when":1452884323471,"updated_by":"bot","name":"lexicography","hash_by":"name","created_by":"bot","hash":"lexicography","updated_when":1452884568091}]}]}],"errors":[]}
 // edge 'next' is updated, edge 'after' is added
 
 shorthand for edge with multiple labels but same prop
-addEdge([propA, labelA], [propE, labelEArr], [propB, labelB]).then(_.flow(JSON.stringify, console.log))
+addEdge([propA, labelA], [propE, labelEArr], [propB, labelB]).then(KB.log)
 // {"results":[{"columns":["e"],"data":[{"row":[{"created_when":1452825908415,"updated_by":"bot","name":"lexicography","hash_by":"name","created_by":"tester","hash":"lexicography","updated_when":1452884620930}]}]},{"columns":["e"],"data":[{"row":[{"created_when":1452884323471,"updated_by":"bot","name":"lexicography","hash_by":"name","created_by":"bot","hash":"lexicography","updated_when":1452884620930}]}]}],"errors":[]}
 ```
 <a name="getEdge"></a>
@@ -182,25 +182,25 @@ var labelB = 'alpha'
 // The below are equivalent for the added edge above, and show that propLabelA and propLabelB are optional.
 getEdge(
  [propE, labelE]
- ).then(_.flow(JSON.stringify, console.log))
+ ).then(KB.log)
 
 getEdge(
  [propE, labelE],
  [propA, labelA]
- ).then(_.flow(JSON.stringify, console.log))
+ ).then(KB.log)
 
 // label is required for E; The rest are optional.
 getEdge(
  [labelE],
  [propA]
- ).then(_.flow(JSON.stringify, console.log))
+ ).then(KB.log)
 // {"results":[{"columns":["e"],"data":[{"row":[{"created_when":1453143189686,"updated_by":"bot","name":"lexicography","hash_by":"name","created_by":"bot","hash":"lexicography","updated_when":1453143189686}]},{"row":[{"created_when":1452825908415,"updated_by":"bot","name":"lexicography","hash_by":"name","created_by":"tester","hash":"lexicography","updated_when":1453259876938}]}]}],"errors":[]}
 
 getEdge(
  [propE, labelE],
  [propA, labelA],
  [propB, labelB]
- ).then(_.flow(JSON.stringify, console.log))
+ ).then(KB.log)
 // {"results":[{"columns":["e"],"data":[{"row":[{"created_when":1452825908415,"updated_by":"bot","name":"lexicography","hash_by":"name","created_by":"tester","hash":"lexicography","updated_when":1452885949550}]}]}],"errors":[]}
 
 
@@ -208,17 +208,17 @@ getEdge(
 getEdge(
  [[propE, labelE] ],
  [[propE, labelE2] ]
- ).then(_.flow(JSON.stringify, console.log))
+ ).then(KB.log)
 getEdge([
  [[propE, labelE] ],
  [[propE, labelE2] ]
-]).then(_.flow(JSON.stringify, console.log))
+]).then(KB.log)
 // {"results":[{"columns":["e"],"data":[{"row":[{"created_when":1452825908415,"updated_by":"bot","name":"lexicography","hash_by":"name","created_by":"tester","hash":"lexicography","updated_when":1452885949550}]}]},{"columns":["e"],"data":[{"row":[{"created_when":1452884323471,"updated_by":"bot","name":"lexicography","hash_by":"name","created_by":"bot","hash":"lexicography","updated_when":1452885949550}]}]}],"errors":[]}
 
 // shorthand: pull multiple edges using multiple labels, and same prop.
 getEdge(
  [propE, labelEArr]
- ).then(_.flow(JSON.stringify, console.log))
+ ).then(KB.log)
 // {"results":[{"columns":["e"],"data":[{"row":[{"created_when":1452825908415,"updated_by":"bot","name":"lexicography","hash_by":"name","created_by":"tester","hash":"lexicography","updated_when":1452885949550}]}]},{"columns":["e"],"data":[{"row":[{"created_when":1452884323471,"updated_by":"bot","name":"lexicography","hash_by":"name","created_by":"bot","hash":"lexicography","updated_when":1452885949550}]}]}],"errors":[]}
 ```
 <a name="get"></a>
@@ -243,19 +243,19 @@ For nodes and edges: MATCH (a:LabelA {propA})-[e:LabelE ({propE}|*Dist)]-(b:Labe
 // Get only node(s)
 get([{
   name: 'A'
-}, 'alpha'], 'RETURN a').then(_.flow(JSON.stringify, console.log))
+}, 'alpha'], 'RETURN a').then(KB.log)
 
 // a rank 1 arguments. 
 // Delete node(s)
 get([{
   name: 'C'
-}, 'alpha'], 'DETACH DELETE a').then(_.flow(JSON.stringify, console.log))
+}, 'alpha'], 'DETACH DELETE a').then(KB.log)
 
 // a rank 1 arguments. 
 // Get nodes and edges. Note that labelE is optional now
 get([{
   name: 'A'
-}, 'alpha'], ['*0..1'], 'RETURN b,e').then(_.flow(JSON.stringify, console.log))
+}, 'alpha'], ['*0..1'], 'RETURN b,e').then(KB.log)
 
 // a rank 2 arguments
 // Get nodes and edges
@@ -264,7 +264,7 @@ get([
     name: 'A'
   }, 'alpha'],
   ['*0..1', 'next'], 'RETURN b,e'
-]).then(_.flow(JSON.stringify, console.log))
+]).then(KB.log)
 
 // a rank 2 arguments
 // Get nodes and edges. Edges can have multiple labels in query; piped
@@ -273,7 +273,7 @@ get([
     name: 'A'
   }, 'alpha'],
   ['*0..1', ['next', 'xiage']], 'RETURN b,e'
-]).then(_.flow(JSON.stringify, console.log))
+]).then(KB.log)
 ```
 <a name="query"></a>
 ## query ⇒ <code>Promise</code>
@@ -292,7 +292,7 @@ Queries Neo4j with arrays of pairs of query and optional params. Is the right-co
 ```js
 Normal query string
 query('MATCH (n:Alphabet) DETACH DELETE (n)')
-.then(_.flow(JSON.stringify, console.log))
+.then(KB.log)
 // => {"results":[{"columns":[],"data":[]}],"errors":[]}
 // Deleted all Alphabet nodes and relations
 
@@ -302,7 +302,7 @@ query(
 {
  prop: [{ name: 'a', num: 1}, { name: 'b', num: 2 }]
 }]
-).then(_.flow(JSON.stringify, console.log))
+).then(KB.log)
 // => {"results":[{"columns":["n"],"data":[{"row":[{"num":1,"name":"a"}]},{"row":[{"num":2,"name":"b"}]}]}],"errors":[]}
 // Added nodes 'a', 'b' to the graph
 
@@ -310,7 +310,7 @@ query(
 query(
 ['CREATE (n:Alphabet {prop}) RETURN n', { prop: [{ name: 'c', num: 3}, { name: 'd', num: 4 }] }],
 ["MATCH (c),(d) WHERE c.name='c' AND d.name='d' CREATE UNIQUE (c)-[r:Next]->(d) RETURN r"]
-).then(_.flow(JSON.stringify, console.log))
+).then(KB.log)
 
 // equivalently can nest under one array
 query(
@@ -318,7 +318,7 @@ query(
 ['CREATE (n:Alphabet {prop}) RETURN n', { prop: [{ name: 'c', num: 3}, { name: 'd', num: 4 }] }],
 ["MATCH (c),(d) WHERE c.name='c' AND d.name='d' CREATE UNIQUE (c)-[r:Next]->(d) RETURN r"]
 ]
-).then(_.flow(JSON.stringify, console.log))
+).then(KB.log)
 // => {"results":[{"columns":["n"],"data":[{"row":[{"num":3,"name":"c"}]},{"row":[{"num":4,"name":"d"}]}]},{"columns":["r"],"data":[{"row":[{}]}]}],"errors":[]}
 Created nodes 'c', 'd', then added an edge (c)->(d)
 ```
