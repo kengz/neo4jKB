@@ -5,7 +5,7 @@ A graph knowledge base implemented in neo4j.
 
 ## Documentation
 
-Read the docs [here](./API.md).
+Read the docs [here](./API.md). Refer to [test/](./test/) for usage.
 
 
 ## Installation
