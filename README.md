@@ -8,7 +8,7 @@ A graph knowledge base implemented in neo4j.
 
 Read the docs [here](./API.md). Refer to [test/](./test/) for usage. 
 
-Work is still underway, so it will be continuously updated.
+Improvement is still underway, so it will be continuously updated.
 
 
 ## Installation
@@ -40,7 +40,7 @@ propE = cons.legalize({ name: 'E', hash_by: 'name' }),
 // build the nodes
 function buildNodes() {
   return new Promise(function(resolve, reject) {
-    A.KB.addNode(
+    KB.addNode(
       [[A.propA, A.labelNode]],
       [[A.propB, A.labelNode]]
       )
@@ -53,7 +53,7 @@ function buildNodes() {
 // build the edges
 function buildEdges() {
   return new Promise(function(resolve, reject) {
-    A.KB.addEdge(
+    KB.addEdge(
       // A -> B
       [[A.propA], [A.propE, A.labelEdge], [A.propB]]
       )
@@ -130,7 +130,6 @@ As a tradeoff, we will provide an easy lookup function to yield the user node on
 
 
 ## Todo
-- unify the internal methods further
 - search engine
 - finish other macro micro graph property methods
 - write about special escape chars from query string too, like ':' in labels.
@@ -153,4 +152,5 @@ As a tradeoff, we will provide an easy lookup function to yield the user node on
 - **delete** KB graph methods from **search**
 - **set/remove** KB graph methods
 - **shortest-paths** KB graph methods
+- **add/get** as unified methods of all above
 - timestamp in `cons.now` uses the ISO 8601 format, e.g. `2016-01-22T15:07:25.550Z`

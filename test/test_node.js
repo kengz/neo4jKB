@@ -1,11 +1,3 @@
-suite('pushNode', function() {
-  test('(propLabel)', function() {
-    (function() { KB.pushNode(A.propLabelAi) }).should.throw(Error)
-  })
-
-})
-
-
 suite('addNode', function() {
   suiteSetup(function(done) {
     A.clearTest().then(done)

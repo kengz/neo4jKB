@@ -1,6 +1,10 @@
 ## Members
 
 <dl>
+<dt><a href="#cons">cons</a> : <code>Object</code></dt>
+<dd><p>The constrain object for KB. has many convenience methods.
+Call via KB.cons.<method></p>
+</dd>
 <dt><a href="#addNode">addNode</a> ⇒ <code>Promise</code></dt>
 <dd><p>Adds node(s) to neo4j with a required JSON prop satisfying the KB constraints, and an optional Label string or array.</p>
 </dd>
@@ -19,6 +23,12 @@ This is a flexible method used for querying node(s), or optionally edge(s) and n
 For nodes: MATCH (a:LabelA {propA}) <wOp> <sOp> <rOp>
 For nodes and edges: MATCH (a:LabelA {propA})-[e:LabelE ({propE}|*Dist)]-(b:LabelB {propB}) <wOp> <sOp> <rOp> <pOp></p>
 </dd>
+<dt><a href="#add">add</a> ⇒ <code>Promise</code></dt>
+<dd><p>Get graph and do whatever u want with the search results: filter, RETURN, DELETE, DETACH DELETE. Graph: node(s) and edge(s) from neo4j with propLabel of nodes A -&gt; B with the edge E. The propLabel for A, B and E is an array of a optional non-empty JSON prop (doesn&#39;t have to satisfy KB constraints), and a (optional for A,B; required for E) Label string or array.
+This is a flexible method used for querying node(s), or optionally edge(s) and node(s). It also takes an optional WHERE filter sentence string, and a required RETURN sentence string.The resultant query string is of the form:
+For nodes: MATCH (a:LabelA {propA}) <wOp> <sOp> <rOp>
+For nodes and edges: MATCH (a:LabelA {propA})-[e:LabelE ({propE}|*Dist)]-(b:LabelB {propB}) <wOp> <sOp> <rOp> <pOp></p>
+</dd>
 <dt><a href="#query">query</a> ⇒ <code>Promise</code></dt>
 <dd><p>Queries Neo4j with arrays of pairs of query and optional params. Is the right-composition of genStatArr and postQuery.</p>
 </dd>
@@ -27,11 +37,62 @@ For nodes and edges: MATCH (a:LabelA {propA})-[e:LabelE ({propE}|*Dist)]-(b:Labe
 ## Functions
 
 <dl>
+<dt><a href="#log">log(arg)</a> ⇒ <code>string</code></dt>
+<dd><p>A conveience method. JSON-stringify the argument, logs it, and return the string.</p>
+</dd>
 <dt><a href="#beautify">beautify(neoRes)</a> ⇒ <code>Array</code></dt>
 <dd><p>Beautify neoRes.</p>
 </dd>
 </dl>
 
+<a name="cons"></a>
+## cons : <code>Object</code>
+The constrain object for KB. has many convenience methods.
+Call via KB.cons.<method>
+
+**Kind**: global variable  
+
+* [cons](#cons) : <code>Object</code>
+    * [.now()](#cons.now) ⇒ <code>string</code>
+    * [.legalize(prop, [msg])](#cons.legalize) ⇒ <code>JSON</code>
+
+<a name="cons.now"></a>
+### cons.now() ⇒ <code>string</code>
+Generates the current timestamp in ISO 8601 format, e.g. 2016-01-22T14:42:27.579Z
+
+**Kind**: static method of <code>[cons](#cons)</code>  
+**Returns**: <code>string</code> - ISO 8601 timestamp string, e.g. '2016-01-22T14:42:27.579Z'  
+<a name="cons.legalize"></a>
+### cons.legalize(prop, [msg]) ⇒ <code>JSON</code>
+Legalize a prop obj by inserting the missing mandatory fields with default values. Automatically flattens the JSON with key delimiter '__' since neo4J doesn't take a deep JSON. Also updates the hash as demanded by 'hash_by'. Mutates the object. Used mainly for testing. Use with care.
+
+**Kind**: static method of <code>[cons](#cons)</code>  
+**Returns**: <code>JSON</code> - mutated prop that is now legal wrt the constraints.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| prop | <code>JSON</code> | The properties object for KB node. |
+| [msg] | <code>JSON</code> | For the robot to extract user id. |
+
+**Example**  
+```js
+var prop = {name: 'A', hash_by: 'name'}
+cons.legalize(prop)
+// => { name: 'A',
+// hash_by: 'name',
+// hash: 'A',
+// updated_by: 'bot',
+// updated_when: 1452802513112 }
+
+var prop1 = {name: 'A', hash_by: 'name', meh: { a:1 }}
+cons.legalize(prop1)
+// => { name: 'A',
+// meh__a: 1,
+// hash_by: 'name',
+// hash: 'A',
+// updated_by: 'bot',
+// updated_when: 1452802513112 }
+```
 <a name="addNode"></a>
 ## addNode ⇒ <code>Promise</code>
 Adds node(s) to neo4j with a required JSON prop satisfying the KB constraints, and an optional Label string or array.
@@ -50,8 +111,8 @@ Adds node(s) to neo4j with a required JSON prop satisfying the KB constraints, a
 var propA = {name: 'A', hash_by: 'name'}
 var propB = {name: 'B', hash_by: 'name'}
 // legalize the prop objects subject to constraints
-cons.legalize(propA)
-cons.legalize(propB)
+KB.cons.legalize(propA)
+KB.cons.legalize(propB)
 addNode(propA, 'alpha').then(KB.log)
 // {"results":[{"columns":["u"],"data":[{"row":[{"created_when":1452801392345,"updated_by":"tester","name":"A","hash_by":"name","created_by":"tester","hash":"A","updated_when":1452802417919}]}]}],"errors":[]}
 // The node is added/updated to KB.
@@ -117,7 +178,7 @@ Adds edge(s) to neo4j with propLabel of nodes A -> B with the edge E. The propLa
 **Example**  
 ```js
 var propE = {name: 'lexicography', hash_by: 'name'}
-cons.legalize(propE)
+KB.cons.legalize(propE)
 var labelE = 'next'
 var labelE2 = 'after'
 var labelEArr = ['next', 'after']
@@ -275,6 +336,70 @@ get([
   ['*0..1', ['next', 'xiage']], 'RETURN b,e'
 ]).then(KB.log)
 ```
+<a name="add"></a>
+## add ⇒ <code>Promise</code>
+Get graph and do whatever u want with the search results: filter, RETURN, DELETE, DETACH DELETE. Graph: node(s) and edge(s) from neo4j with propLabel of nodes A -> B with the edge E. The propLabel for A, B and E is an array of a optional non-empty JSON prop (doesn't have to satisfy KB constraints), and a (optional for A,B; required for E) Label string or array.
+This is a flexible method used for querying node(s), or optionally edge(s) and node(s). It also takes an optional WHERE filter sentence string, and a required RETURN sentence string.The resultant query string is of the form:
+For nodes: MATCH (a:LabelA {propA}) <wOp> <sOp> <rOp>
+For nodes and edges: MATCH (a:LabelA {propA})-[e:LabelE ({propE}|*Dist)]-(b:LabelB {propB}) <wOp> <sOp> <rOp> <pOp>
+
+**Kind**: global variable  
+**Returns**: <code>Promise</code> - From the query.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| single_query, | <code>\*</code> | As (fn, \*, \*, ...), e.g. (fn, [p, L], [p|D, L], [p, L], wOp, rOp) |
+| multi_queries | <code>\*</code> | As (fn, [\*], [\*], [\*]...), e.g. (fn, [[p, L], [p|D, L], [p, L], wOp, rOp], [[p, L], [p|D, L], [p, L], wOp, rOp], ...) |
+| multi_queries_one_array | <code>\*</code> | As (fn, [[\*], [\*], [\*]...]), e.g. (fn, [[[p, L], [p|D, L], [p, L], wOp, rOp], [[p, L], [p|D, L], [p, L], wOp, rOp], ...]) |
+
+**Example**  
+```js
+// nodes
+var propA = {
+  name: "A",
+  hash_by: "name"
+}
+var propB = {
+  name: "B",
+  hash_by: "name"
+}
+KB.cons.legalize(propA)
+KB.cons.legalize(propB)
+// edge
+var propE = {
+  name: "E"
+}
+KB.cons.legalize(propE)
+
+// add a node
+add([propA, 'test']).then(KB.log)
+// [{"columns":["a"],"data":[{"row":[{"created_when":"2016-01-23T16:21:51.674Z","name":"A","updated_by":"bot","hash_by":"name","created_by":"bot","hash":"A","updated_when":"2016-01-23T16:21:51.674Z"}]}]}]
+
+// add nodes
+add([[propA, 'test'], ], [[propB, 'test'], ]).then(KB.log)
+// equivalently
+add([[[propA, 'test'], ], [[propB, 'test'], ]]).then(KB.log)
+// [{"columns":["a"],"data":[{"row":[{"created_when":"2016-01-23T16:21:51.674Z","name":"A","updated_by":"bot","hash_by":"name","created_by":"bot","hash":"A","updated_when":"2016-01-23T16:24:14.242Z"}]}]},{"columns":["a"],"data":[{"row":[{"created_when":"2016-01-23T16:23:53.406Z","name":"B","updated_by":"bot","hash_by":"name","created_by":"bot","hash":"B","updated_when":"2016-01-23T16:24:14.244Z"}]}]}]
+
+// must supply target node if adding edge
+add([propA, 'test'], [propE, 'test_next']).then(KB.log)
+// Error: You must provide propLabel for either A or A,E,B.
+
+//add edge. Note: don't use the legalized props to search for nodes A, B, otherwise it will want to match every field including the timestamp
+add([{name: 'A'}, 'test'], [propE, 'test_next'], [{name: 'B'}, 'test']).then(KB.log)
+// [{"columns":["e"],"data":[{"row":[{"created_when":"2016-01-23T16:25:12.706Z","name":"E","updated_by":"bot","hash_by":"hash","created_by":"bot","hash":"test","updated_when":"2016-01-23T16:25:12.706Z"}]}]}]
+
+// add edges
+// add([[{name: 'A'}, 'test'], [propE, 'test_next'], [{name: 'B'}, 'test']],
+// [[{name: 'A'}, 'test'], [propE, 'test_next_2'], [{name: 'B'}, 'test']]).then(KB.log)
+// equivalently
+add([{
+  name: 'A'
+}, 'test'], [propE, ['test_next', 'test_next_2']], [{
+  name: 'B'
+}, 'test']).then(KB.log)
+// [{"columns":["e"],"data":[{"row":[{"created_when":"2016-01-23T16:25:12.706Z","name":"E","updated_by":"bot","hash_by":"hash","created_by":"bot","hash":"test","updated_when":"2016-01-23T16:41:22.955Z"}]}]},{"columns":["e"],"data":[{"row":[{"created_when":"2016-01-23T16:37:55.865Z","name":"E","updated_by":"bot","hash_by":"hash","created_by":"bot","hash":"t
+```
 <a name="query"></a>
 ## query ⇒ <code>Promise</code>
 Queries Neo4j with arrays of pairs of query and optional params. Is the right-composition of genStatArr and postQuery.
@@ -322,6 +447,17 @@ query(
 // => {"results":[{"columns":["n"],"data":[{"row":[{"num":3,"name":"c"}]},{"row":[{"num":4,"name":"d"}]}]},{"columns":["r"],"data":[{"row":[{}]}]}],"errors":[]}
 Created nodes 'c', 'd', then added an edge (c)->(d)
 ```
+<a name="log"></a>
+## log(arg) ⇒ <code>string</code>
+A conveience method. JSON-stringify the argument, logs it, and return the string.
+
+**Kind**: global function  
+**Returns**: <code>string</code> - the stringified JSON.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| arg | <code>JSON</code> | The JSON to be stringified. |
+
 <a name="beautify"></a>
 ## beautify(neoRes) ⇒ <code>Array</code>
 Beautify neoRes.
