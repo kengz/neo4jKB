@@ -1,4 +1,4 @@
- {
+{
   "name": "neo4jkb",
   "version": "0.0.1",
   "description": "A graph knowledge base implemented in neo4j.",
@@ -31,6 +31,7 @@
   "devDependencies": {
     "chai": "^3.4.1",
     "chai-as-promised": "^5.2.0",
+    "coveralls": "^2.11.6",
     "mocha": "^2.3.4"
   }
 }

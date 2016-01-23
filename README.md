@@ -1,4 +1,6 @@
 # neo4jKB
+[![Build Status](https://travis-ci.org/kengz/neo4jKB.svg?branch=master)](https://travis-ci.org/kengz/neo4jKB)
+
 A graph knowledge base implemented in neo4j.
 
 ## Installation
@@ -10,10 +12,8 @@ npm i --save neo4jkb
 More setup instructions soon. See if can do sudo install Java and brew neo4j from npm thru the install executable.
 
 ## Todo
-- test all
 - just use the single pullgraph method to add all add get
 - finish other macro micro graph property methods
-- test and travis needs to setup neo4j too
 - usage docs
 - write about special escape chars from query string too, like ':' in labels.
 - chronos method
@@ -25,9 +25,6 @@ More setup instructions soon. See if can do sudo install Java and brew neo4j fro
 - node, edge, graph ops without reverting to `query()`
 - db migration and recovery
 - open up AWS server
-- k what bout unit testing the KB part? Setup neo4j?
-- Travis CI
-- Use `coveralls` pushing to Slack.
 - need unflattenJSON method in lomath
 
 

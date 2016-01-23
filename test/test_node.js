@@ -32,14 +32,6 @@ suite('addNode', function() {
 })
 
 
-// suite('pullNode', function() {
-//   test('(propLabel)', function() {
-//     _.flow(KB.pullNode, A.extractQP, A.log)(A.propLabelA).should.equal('["MATCH (a:test  {name: {prop}.name, hash_by: {prop}.hash_by, hash: {prop}.hash, updated_by: {prop}.updated_by, updated_when: {prop}.updated_when}) RETURN a",{"prop":{"name":"A","hash_by":"name","hash":"A","updated_by":"bot"}}]')
-//   })
-
-// })
-
-
 suite('getNode', function() {
   suiteSetup(function(done) {
     A.buildGraph().then(done)

@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "0.12"
+install:
+  - npm install
+services:
+  - neo4j
+env:
+  - NEO4J_AUTH=neo4j:neo4j
+matrix:
+  fast_finish: true
+  allow_failures:
+    - node_js: 0.11
+after_script:
+  "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
