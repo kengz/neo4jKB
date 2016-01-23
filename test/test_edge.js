@@ -49,4 +49,13 @@ suite('getEdge', function() {
     ]).then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["e"],"data":[["E"]]},{"columns":["e"],"data":[["E2"]]}]')
   })
 
+  test('multiedge: (propLabelD, [], propLabelZ, rOp, pOp)', function() {
+    return KB.getEdge(A.propLabelDi, [], A.propLabelZi, 'RETURN e').then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["e"],"data":[["E"],["E2"]]}]')
+  })
+
+  test('multiedge: (propLabelD, [[labelEdge,labelEdge2]], propLabelZ, rOp, pOp)', function() {
+    return KB.getEdge(A.propLabelDi, [
+      [A.labelEdge, A.labelEdge2]
+    ], A.propLabelZi, 'RETURN e').then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["e"],"data":[["E"],["E2"]]}]')
+  })
 })

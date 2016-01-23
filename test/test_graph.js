@@ -12,11 +12,15 @@ suite('add', function() {
   })
 
   test('add node illegal cons error: (propLabelA)', function() {
-    (function() { KB.add(A.propLabelAi) }).should.throw(Error)
+    (function() {
+      KB.add(A.propLabelAi)
+    }).should.throw(Error)
   })
 
   test('must supply target node if adding edge: (propLabelA, propLabelE)', function() {
-    (function() { KB.add(A.propLabelA, A.propLabelE) }).should.throw(Error)
+    (function() {
+      KB.add(A.propLabelA, A.propLabelE)
+    }).should.throw(Error)
   })
 
   test('add nodes: ([propLabelA,], [propLabelB,])', function() {
@@ -58,24 +62,39 @@ suite('get', function() {
     return KB.get(A.propLabelAi, 'RETURN a').then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["a"],"data":[["A"]]}]')
   })
 
-  test('just nodes: (propLabelA, rOp)', function() {
+  test('nodes: (propLabelA, rOp)', function() {
     return KB.get(A.propLabelAi, 'RETURN a').then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["a"],"data":[["A"]]}]')
   })
 
-  test('just nodes: (propLabelA, wOp, rOp)', function() {
+  test('nodes: (propLabelA, wOp, rOp)', function() {
     return KB.get(A.propLabelAi, 'WHERE a.name="A"', 'RETURN a').then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["a"],"data":[["A"]]}]')
   })
 
-  test('just nodes: (propLabelA, wOp, sOp, rOp)', function() {
-    return KB.get(A.propLabelAi, 'WHERE a.name="A"', 'SET a.age=10', 'RETURN a').then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["a"],"data":[["A"]]}]')
+  test('nodes: (propLabelA, wOp, sOp, rOp)', function() {
+    return KB.get(A.propLabelAi, 'WHERE a.name="A"', 'SET a.age=10', 'RETURN a.age').then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["a.age"],"data":[[10]]}]')
   })
 
   test('nodes and edges: (propLabelA, propLabelE, propLabelB, rOp)', function() {
     return KB.get(A.propLabelAi, A.propLabelE, A.propLabelBi, 'RETURN a,e,b').then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["a","e","b"],"data":[["A","E","B"]]}]')
   })
 
+  test('nodes and edges: ([propLabelA, propLabelE, propLabelB, rOp], [propLabelB, propLabelE, propLabelC, rOp])', function() {
+    return KB.get([A.propLabelAi, A.propLabelE, A.propLabelBi, 'RETURN a,e,b'], [A.propLabelBi, A.propLabelE, A.propLabelCi, 'RETURN a,e,b']).then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["a","e","b"],"data":[["A","E","B"]]},{"columns":["a","e","b"],"data":[["B","E","C"]]}]')
+  })
+
+  test('nodes and edges: ([[propLabelA, propLabelE, propLabelB, rOp], [propLabelB, propLabelE, propLabelC, rOp]])', function() {
+    return KB.get([
+      [A.propLabelAi, A.propLabelE, A.propLabelBi, 'RETURN a,e,b'],
+      [A.propLabelBi, A.propLabelE, A.propLabelCi, 'RETURN a,e,b']
+    ]).then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["a","e","b"],"data":[["A","E","B"]]},{"columns":["a","e","b"],"data":[["B","E","C"]]}]')
+  })
+
+  test('nodes and edges: (propLabelA, propLabelE, rOp)', function() {
+    return KB.get(A.propLabelAi, A.propLabelE, 'RETURN DISTINCT(b)').then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["b"],"data":[[1],[2],[3],["B"]]}]')
+  })
+
   test('degree: (propLabelA, propLabelE, [], rOp)', function() {
-    return KB.get(A.propLabelAi, A.distLabelE, [], 'RETURN DISTINCT(b)').then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["b"],"data":[[1],[2],[3],["B"],["C"]]}]')
+    return KB.get(A.propLabelAi, A.propLabelE, [], 'RETURN DISTINCT(b)').then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["b"],"data":[[1],[2],[3],["B"]]}]')
   })
 
   test('dist: (propLabelB, distLabelE, [], rOp)', function() {
@@ -89,5 +108,12 @@ suite('get', function() {
   test('multiedge: (propLabelD, [], propLabelZ, rOp, pOp)', function() {
     return KB.get(A.propLabelDi, [], A.propLabelZi, 'RETURN e').then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["e"],"data":[["E"],["E2"]]}]')
   })
+
+  test('multiedge: (propLabelD, [[labelEdge,labelEdge2]], propLabelZ, rOp, pOp)', function() {
+    return KB.get(A.propLabelDi, [
+      [A.labelEdge, A.labelEdge2]
+    ], A.propLabelZi, 'RETURN e').then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["e"],"data":[["E"],["E2"]]}]')
+  })
+
 
 })
