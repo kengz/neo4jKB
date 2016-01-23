@@ -8,7 +8,7 @@ suite('get', function() {
   })
 
   test('must specify rOp: (propLabelA)', function() {
-    () => {KB.get(A.propLabelAi)}.should.throw(Error)
+    (function() {KB.get(A.propLabelAi)}).should.throw(Error)
   })
   test('just nodes: (propLabelA, rOp)', function() {
     return KB.get(A.propLabelAi, 'RETURN a').then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["a"],"data":[["A"]]}]')

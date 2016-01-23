@@ -1,6 +1,6 @@
 suite('pushNode', function() {
   test('(propLabel)', function() {
-    () => { KB.pushNode(A.propLabelAi) }.should.throw(Error)
+    (function() { KB.pushNode(A.propLabelAi) }).should.throw(Error)
   })
 
 })
