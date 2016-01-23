@@ -3,42 +3,78 @@
 
 A graph knowledge base implemented in neo4j.
 
+## Documentation
+
+Read the docs [here](./API.md).
+
+
 ## Installation
+
 
 ```bash
 npm i --save neo4jkb
 ```
 
-More setup instructions soon. See if can do sudo install Java and brew neo4j from npm thru the install executable.
-
-## Todo
-- just use the single pullgraph method to add all add get
-- finish other macro micro graph property methods
-- usage docs
-- write about special escape chars from query string too, like ':' in labels.
-- chronos method
-- user lookup function by ID etc
-- search search search
-- permission, belongs_to, context tag, priority level
-- release the set of permissible ops from constrain.js
-- neo4j separate DB dont use root. For future multiple deployments too
-- node, edge, graph ops without reverting to `query()`
-- db migration and recovery
-- open up AWS server
-- need unflattenJSON method in lomath
+Ensure that you have `neo4j` installed, and start the server.
 
 
-## Changelog
+```js
+// import and initialize
+var KB = require('neo4jkb')({ NEO4J_AUTH: 'neo4j:neo4j' })
 
-`Jan 2016`
+// node label
+var labelNode = 'test',
+// nodes A, B
+propA = KB.cons.legalize({ name: 'A', hash_by: 'name' }),
+propB = KB.cons.legalize({ name: 'B', hash_by: 'name' }),
 
-- added `mocha` using `chai` library for test; coverage by `istanbul`.
-- **create/update** KB graph methods
-- **search** KB graph methods; do whatever u want with the results: `<filter>` then `RETURN|DELETE|DETACH DELETE`
-- **delete** KB graph methods from **search**
-- **set/remove** KB graph methods
-- **shortest-paths** KB graph methods
-- timestamp in `cons.now` uses the ISO 8601 format, e.g. `2016-01-22T15:07:25.550Z`
+// edge label
+labelEdge = 'test_next',
+// edge E from (a)-[e]->(b)
+propE = cons.legalize({ name: 'E', hash_by: 'name' }),
+
+
+// build the nodes
+function buildNodes() {
+  return new Promise(function(resolve, reject) {
+    A.KB.addNode(
+      [[A.propA, A.labelNode]],
+      [[A.propB, A.labelNode]]
+      )
+      // .then(A.log)
+      .then(resolve)
+      .catch(reject)
+  })
+}
+
+// build the edges
+function buildEdges() {
+  return new Promise(function(resolve, reject) {
+    A.KB.addEdge(
+      // A -> B
+      [[A.propA], [A.propE, A.labelEdge], [A.propB]]
+      )
+      // .then(A.log)
+      .then(resolve)
+      .catch(reject)
+  })
+}
+
+// build the graph: first clear the test, then buildNodes, buildEdges
+function buildGraph() {
+  return new Promise(function(resolve, reject) {
+    buildNodes()
+    .then(buildEdges)
+    .then(resolve)
+    .catch(reject)
+  })
+}
+
+
+buildGraph()
+// A simple graph is built. Go to localhost:7474 to query and see it.
+
+```
 
 
 ## KB standard
@@ -87,3 +123,34 @@ all nodes and edges must have the following fields in their `prop`:
 All knowledge must be created by users, thus the `created_by` and `updated_by` are mandatory fields. We keep to using user ID as the hash string since it's the only constant hash, and is universal to all adapters. Whereas the use of username as hash, despite its convenience, is costly whenever it is changed (update is `O(2n)`).
 
 As a tradeoff, we will prodive an easy lookup function to yield the user node on inputting an ID, or any node with an authorship.
+
+
+
+## Todo
+- just use the single pullgraph method to add all add get
+- finish other macro micro graph property methods
+- usage docs
+- write about special escape chars from query string too, like ':' in labels.
+- chronos method
+- user lookup function by ID etc
+- search search search
+- permission, belongs_to, context tag, priority level
+- release the set of permissible ops from constrain.js
+- neo4j separate DB dont use root. For future multiple deployments too
+- node, edge, graph ops without reverting to `query()`
+- db migration and recovery
+- open up AWS server
+- need unflattenJSON method in lomath
+
+
+## Changelog
+
+`Jan 2016`
+
+- added `mocha` using `chai` library for test; coverage by `istanbul`.
+- **create/update** KB graph methods
+- **search** KB graph methods; do whatever u want with the results: `<filter>` then `RETURN|DELETE|DETACH DELETE`
+- **delete** KB graph methods from **search**
+- **set/remove** KB graph methods
+- **shortest-paths** KB graph methods
+- timestamp in `cons.now` uses the ISO 8601 format, e.g. `2016-01-22T15:07:25.550Z`
