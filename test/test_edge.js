@@ -1,14 +1,10 @@
 suite('addEdge', function() {
   setup(function(done) {
-    A.buildGraph().then(function(){
-      done()
-    })
+    A.buildGraph().then(done)
   })
 
   teardown(function(done) {
-    A.clearTest().then(function(){
-      done()
-    })
+    A.clearTest().then(done)
   })
 
   test('(propLabelA, propLabelE, propLabelB)', function() {
