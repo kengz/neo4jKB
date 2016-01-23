@@ -1,11 +1,14 @@
 # neo4jKB
-[![Build Status](https://travis-ci.org/kengz/neo4jKB.svg?branch=master)](https://travis-ci.org/kengz/neo4jKB) [![Coverage Status](https://coveralls.io/repos/github/kengz/neo4jKB/badge.svg?branch=master)](https://coveralls.io/github/kengz/neo4jKB?branch=master)
+[![npm version](https://badge.fury.io/js/neo4jkb.svg)](https://badge.fury.io/js/neo4jkb) [![Build Status](https://travis-ci.org/kengz/neo4jKB.svg?branch=master)](https://travis-ci.org/kengz/neo4jKB) [![Coverage Status](https://coveralls.io/repos/github/kengz/neo4jKB/badge.svg?branch=master)](https://coveralls.io/github/kengz/neo4jKB?branch=master) [![Dependency Status](https://gemnasium.com/kengz/neo4jKB.svg)](https://gemnasium.com/kengz/neo4jKB)
+
 
 A graph knowledge base implemented in neo4j.
 
 ## Documentation
 
-Read the docs [here](./API.md). Refer to [test/](./test/) for usage.
+Read the docs [here](./API.md). Refer to [test/](./test/) for usage. 
+
+Work is still underway, so it will be continuously updated.
 
 
 ## Installation
@@ -122,24 +125,21 @@ all nodes and edges must have the following fields in their `prop`:
 
 All knowledge must be created by users, thus the `created_by` and `updated_by` are mandatory fields. We keep to using user ID as the hash string since it's the only constant hash, and is universal to all adapters. Whereas the use of username as hash, despite its convenience, is costly whenever it is changed (update is `O(2n)`).
 
-As a tradeoff, we will prodive an easy lookup function to yield the user node on inputting an ID, or any node with an authorship.
+As a tradeoff, we will provide an easy lookup function to yield the user node on inputing an ID, or any node with an authorship. For the timestamp, we will provide a chrono method too. (soon)
 
 
 
 ## Todo
-- just use the single pullgraph method to add all add get
+- unify the internal methods further
+- search engine
 - finish other macro micro graph property methods
-- usage docs
 - write about special escape chars from query string too, like ':' in labels.
-- chronos method
 - user lookup function by ID etc
-- search search search
+- chronos method
 - permission, belongs_to, context tag, priority level
 - release the set of permissible ops from constrain.js
-- neo4j separate DB dont use root. For future multiple deployments too
-- node, edge, graph ops without reverting to `query()`
 - db migration and recovery
-- open up AWS server
+- fire up AWS server and test
 - need unflattenJSON method in lomath
 
 
