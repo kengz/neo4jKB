@@ -131,14 +131,11 @@ As a tradeoff, we will provide an easy lookup function to yield the user node on
 
 ## Todo
 - search engine
-- finish other macro micro graph property methods
-- write about special escape chars from query string too, like ':' in labels.
+- add other macro micro graph property methods
 - user lookup function by ID etc
 - chronos method
 - permission, belongs_to, context tag, priority level
-- release the set of permissible ops from constrain.js
 - db migration and recovery
-- fire up AWS server and test
 - need unflattenJSON method in lomath
 
 
@@ -154,3 +151,4 @@ As a tradeoff, we will provide an easy lookup function to yield the user node on
 - **shortest-paths** KB graph methods
 - **add/get** as unified methods of all above
 - timestamp in `cons.now` uses the ISO 8601 format, e.g. `2016-01-22T15:07:25.550Z`
+- list the set of permissible query ops

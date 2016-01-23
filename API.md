@@ -30,7 +30,12 @@ For nodes: MATCH (a:LabelA {propA}) <wOp> <sOp> <rOp>
 For nodes and edges: MATCH (a:LabelA {propA})-[e:LabelE ({propE}|*Dist)]-(b:LabelB {propB}) <wOp> <sOp> <rOp> <pOp></p>
 </dd>
 <dt><a href="#query">query</a> ⇒ <code>Promise</code></dt>
-<dd><p>Queries Neo4j with arrays of pairs of query and optional params. Is the right-composition of genStatArr and postQuery.</p>
+<dd><p>Queries Neo4j with arrays of pairs of query and optional params. Is the right-composition of genStatArr and postQuery.
+This is is query() method with full power, i.e. no query-string cleaning. Use responsibly.
+The high level add/get methods call this internall with query-string cleaning to prevent SQL injection.
+The query cleaning algorithm is (proven( based on the CFG parse tree and logic. Refer to isLegalSentence().
+A sentence is a clause starting with the following query operation specifier: <code>WHERE,SET,REMOVE,RETURN,DELETE,DETACH DELETE,SHORTESTPATH,ALLSHORTESTPATHS</code>
+The sentence also consists of variables and operators <op>. The permissible operators by this algorithm are <code>AND,OR,XOR,NOT,=,&lt;&gt;,&lt;,&gt;,&lt;=,&gt;=,IS NULL,IS NOT NULL,+,+=,=~,EXISTS,nodes,labels,keys,&quot;,&quot;,=,ORDER BY,LIMIT,COUNT,sum,avg,percentileDisc,percentileCont,stdev,stdevp,max,min,collect,DISTINCT,nodes,labels,keys</code></p>
 </dd>
 </dl>
 
@@ -55,6 +60,7 @@ Call via KB.cons.<method>
 * [cons](#cons) : <code>Object</code>
     * [.now()](#cons.now) ⇒ <code>string</code>
     * [.legalize(prop, [msg])](#cons.legalize) ⇒ <code>JSON</code>
+    * [.isLegalSentence(str)](#cons.isLegalSentence) ⇒ <code>Boolean</code>
 
 <a name="cons.now"></a>
 ### cons.now() ⇒ <code>string</code>
@@ -93,6 +99,28 @@ cons.legalize(prop1)
 // updated_by: 'bot',
 // updated_when: 1452802513112 }
 ```
+<a name="cons.isLegalSentence"></a>
+### cons.isLegalSentence(str) ⇒ <code>Boolean</code>
+Check if the string is a RETURN operation string and is legal, to prevent SQL injection.
+Algo (str):
+1. replace "(" and ")" globally
+2. split by <op> globally, trim spaces, into variables
+3. check if each variable is legally atomic (shan't be split further): either contains no space "\s+" and no quotes "\", \'" at all, or is a proper quoted string with quotes on the boundaries but not the inside.
+
+A sentence is a clause starting with the following query operation specifier: `WHERE,SET,REMOVE,RETURN,DELETE,DETACH DELETE,SHORTESTPATH,ALLSHORTESTPATHS`
+The sentence also consists of variables and operators <op>. The permissible operators by this algorithm are `AND,OR,XOR,NOT,=,<>,<,>,<=,>=,IS NULL,IS NOT NULL,+,+=,=~,EXISTS,nodes,labels,keys,",",=,ORDER BY,LIMIT,COUNT,sum,avg,percentileDisc,percentileCont,stdev,stdevp,max,min,collect,DISTINCT,nodes,labels,keys`
+
+Proof: 
+Some terminologies: A sentence is a string that can properly evaluate to its output. It consists of operators and variables. Operators (single argument on either side here) operate on a single variable on either side (left and right) to yield another variable.
+We can take the CFG parse tree of the whole string, split by the ops. We do not care about operator precedence in checking the legality of the string. Also note that parentheses "(", ")" exists only to assert operator precedence to give an unambiguous parse tree, thus removing them entirely is simply making the tree flat, i.e. all operations run from left to right.
+Furthermore, note that from the terminologies we can see that in a sentence, there can only be adjacent occurence of operators, but not of variables. This can also be seen from the parse tree, where the sentence is split by operators, and variables are the leaves. Leaves are always atomic. This justifies our algorithm.
+
+**Kind**: static method of <code>[cons](#cons)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>string</code> | A sentence of Ops and Variables. |
+
 <a name="addNode"></a>
 ## addNode ⇒ <code>Promise</code>
 Adds node(s) to neo4j with a required JSON prop satisfying the KB constraints, and an optional Label string or array.
@@ -403,6 +431,11 @@ add([{
 <a name="query"></a>
 ## query ⇒ <code>Promise</code>
 Queries Neo4j with arrays of pairs of query and optional params. Is the right-composition of genStatArr and postQuery.
+This is is query() method with full power, i.e. no query-string cleaning. Use responsibly.
+The high level add/get methods call this internall with query-string cleaning to prevent SQL injection.
+The query cleaning algorithm is (proven( based on the CFG parse tree and logic. Refer to isLegalSentence().
+A sentence is a clause starting with the following query operation specifier: `WHERE,SET,REMOVE,RETURN,DELETE,DETACH DELETE,SHORTESTPATH,ALLSHORTESTPATHS`
+The sentence also consists of variables and operators <op>. The permissible operators by this algorithm are `AND,OR,XOR,NOT,=,<>,<,>,<=,>=,IS NULL,IS NOT NULL,+,+=,=~,EXISTS,nodes,labels,keys,",",=,ORDER BY,LIMIT,COUNT,sum,avg,percentileDisc,percentileCont,stdev,stdevp,max,min,collect,DISTINCT,nodes,labels,keys`
 
 **Kind**: global variable  
 **Returns**: <code>Promise</code> - A promise object resolved with the query results from the request module.  
