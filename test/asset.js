@@ -164,8 +164,8 @@ function buildEdges() {
 
 
 // Simple log for the first argument after JSON.stringify it. Returns the string.
-function log() {
-  var str = JSON.stringify(...arguments)
+function log(arg) {
+  var str = JSON.stringify(arg)
   console.log(str)
   return str;
 }
