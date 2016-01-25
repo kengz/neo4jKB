@@ -11,6 +11,13 @@ suite('add', function() {
     return KB.add(A.propLabelA).then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["a"],"data":[["A"]]}]')
   })
 
+  test('add node using cons.legalize({name:"A"}, "name"): (propLabelAl)', function() {
+    A.propAl.should.have.property('hash_by')
+    A.propAl.hash_by.should.equal('name')
+    A.propAl.hash.should.equal('A')
+    return KB.add(A.propLabelAl).then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["a"],"data":[["A"]]}]')
+  })
+
   test('add node illegal cons error: (propLabelA)', function() {
     (function() {
       KB.add(A.propLabelAi)

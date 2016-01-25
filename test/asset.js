@@ -24,6 +24,7 @@ propZ = cons.legalize({ name: 'Z', hash_by: 'name' }),
 prop1 = cons.legalize({ name: 1, hash_by: 'name' }),
 prop2 = cons.legalize({ name: 2, hash_by: 'name' }),
 prop3 = cons.legalize({ name: 3, hash_by: 'name' }),
+propAl = cons.legalize({ name: 'A' }, 'name')
 propAi = { name: 'A' },
 propBi = { name: 'B' },
 propCi = { name: 'C' },
@@ -45,6 +46,7 @@ var NEO4J_AUTH = process.env.NEO4J_AUTH || 'neo4j:0000'
 var A = {
   KB: require('../index')({ NEO4J_AUTH: NEO4J_AUTH }),
   labelNode: labelNode,
+  propAl: propAl,
   propA: propA,
   propB: propB,
   propC: propC,
@@ -54,6 +56,7 @@ var A = {
   prop2: prop2,
   prop3: prop3,
   propLabelA: [propA, labelNode],
+  propLabelAl: [propAl, labelNode],
   propLabelB: [propB, labelNode],
   propLabelC: [propC, labelNode],
   propLabelD: [propD, labelNode],
