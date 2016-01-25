@@ -4,7 +4,8 @@
   "description": "A graph knowledge base implemented in neo4j.",
   "main": "index.js",
   "scripts": {
-    "test": "istanbul cover ./node_modules/.bin/_mocha -i **/lib/neo4jKB.js"
+    "test": "istanbul cover ./node_modules/.bin/_mocha -i **/lib/neo4jKB.js",
+    "doc": "jsdoc2md ./lib/*.js > API.md"
   },
   "repository": {
     "type": "git",
