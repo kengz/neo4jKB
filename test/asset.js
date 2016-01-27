@@ -42,7 +42,7 @@ propE2i = { name: 'E2' };
 distE = '*..2'
 
 
-var NEO4J_AUTH = process.env.NEO4J_AUTH || 'neo4j:0000'
+var NEO4J_AUTH = process.env.NEO4J_AUTH
 var A = {
   KB: require('../index')({ NEO4J_AUTH: NEO4J_AUTH }),
   labelNode: labelNode,
