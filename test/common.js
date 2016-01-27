@@ -2,7 +2,7 @@
 var env = require('node-env-file');
 
 // set env vars for tests
-// process.env.NODE_ENV = 'development'
+process.env.NODE_ENV = 'development'
 
 // set env if not already set externally
 // .env must exist if setting env vars externally
