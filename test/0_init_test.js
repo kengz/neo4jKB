@@ -13,7 +13,7 @@ before(function() {
 after(function() {
   console.log('Stopping Neo4j:')
   return co(function*() {
-    yield KB.query('MATCH (a) WHERE filter(x IN labels(a) WHERE x =~ "^test_.*") DETACH DELETE a').catch(console.log)
+    yield A.clearTest()
     console.log('Deleted all test data (with label =~ "^test_.*")');
     // var ss = yield spawnSync('neo4j', ['stop'])
     // console.log(ss.stdout.toString())

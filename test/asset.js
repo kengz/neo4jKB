@@ -99,7 +99,7 @@ function flush() {
 // clear out the test nodes
 function clearTest() {
   return new Promise(function(resolve, reject) {
-    A.KB.query('MATCH (a) WHERE filter(x IN labels(a) WHERE x =~ "^test_.*") DETACH DELETE a')
+    A.KB.query('MATCH (a) WHERE ANY(x IN labels(a) WHERE x =~ "(?i)^test_.*") DETACH DELETE a')
       .then(flush)
       .then(resolve)
       .catch(reject)
