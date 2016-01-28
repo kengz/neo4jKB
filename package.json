@@ -27,11 +27,12 @@
   "dependencies": {
     "bluebird": "^3.1.5",
     "lomath": "^0.2.7",
-    "reqscraper": "^0.1.1"
+    "reqscraper": "^0.1.2"
   },
   "devDependencies": {
     "chai": "^3.4.1",
     "chai-as-promised": "^5.2.0",
+    "co": "^4.6.0",
     "coveralls": "^2.11.6",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.4",
