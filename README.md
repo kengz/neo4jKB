@@ -80,6 +80,10 @@ buildGraph()
 ```
 
 
+#### Tests
+To run the test, clone this repo, make sure you set the environment variable `NEO4J_AUTH=<username>:<password>` (or just save an `.env` if you like), then run `npm test`.
+
+
 ## KB standard
 We use a graph knowledge base (KB) to encode generic knowledge and relationships. The implementation is through a graph database - we choose Neo4j for the purpose. A graph consists of individual nodes connected with edges.
 

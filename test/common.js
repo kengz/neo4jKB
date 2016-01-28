@@ -12,8 +12,7 @@ try {
   });
 } catch (e) {
   console.log(e)
-  console.log("Process exiting with code 1.")
-  process.exit(1)
+  console.log("Using externall set env vars if exist.")
 }
 
 // dependencies
