@@ -23,7 +23,10 @@ global.Promise = require('bluebird');
 global.chai = require('chai')
 global.chaiAsPromised = require("chai-as-promised")
 chai.use(chaiAsPromised)
-global.should = chai.should()
+global.should = chai.should();
+// generator-based yield flow control
+global.co = require('co')
+
 
 // import assets and test subject
 global.A = require('./asset')

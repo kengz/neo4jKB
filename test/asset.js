@@ -15,7 +15,7 @@ var cons = require('../lib/constrain')
 // A -> B -> C -> D -> Z
 // D -[:test_next_2]-> Z
 
-var labelNode = 'test',
+var labelNode = 'alpha',
 propA = cons.legalize({ name: 'A', hash_by: 'name' }),
 propB = cons.legalize({ name: 'B', hash_by: 'name' }),
 propC = cons.legalize({ name: 'C', hash_by: 'name' }),
@@ -33,8 +33,8 @@ propZi = { name: 'Z' },
 prop1i = { name: 1 },
 prop2i = { name: 2 },
 prop3i = { name: 3 },
-labelEdge = 'test_next',
-labelEdge2 = 'test_next_2',
+labelEdge = 'next',
+labelEdge2 = 'next_2',
 propE = cons.legalize({ name: 'E', hash_by: 'name' }),
 propE2 = cons.legalize({ name: 'E2', hash_by: 'name' }),
 propEi = { name: 'E' },
@@ -42,9 +42,8 @@ propE2i = { name: 'E2' };
 distE = '*..2'
 
 
-var NEO4J_AUTH = process.env.NEO4J_AUTH
 var A = {
-  KB: require('../index')({ NEO4J_AUTH: NEO4J_AUTH }),
+  KB: require('../index')({ NEO4J_AUTH: process.env.NEO4J_AUTH }),
   labelNode: labelNode,
   propAl: propAl,
   propA: propA,
@@ -92,7 +91,7 @@ var A = {
   extractQP: extractQP
 }
 
-// helper function to flush the resolved args from buildGrapg
+// helper function to flush the resolved args from buildGraph
 function flush() {
   return 
 }
@@ -100,7 +99,7 @@ function flush() {
 // clear out the test nodes
 function clearTest() {
   return new Promise(function(resolve, reject) {
-    A.KB.query('MATCH (a:test) DETACH DELETE a')
+    A.KB.query('MATCH (a) WHERE filter(x IN labels(a) WHERE x =~ "^test_.*") DETACH DELETE a')
       .then(flush)
       .then(resolve)
       .catch(reject)
