@@ -45,8 +45,14 @@ The sentence also consists of variables and operators <op>. The permissible oper
 <dt><a href="#log">log(arg)</a> ⇒ <code>string</code></dt>
 <dd><p>A conveience method. JSON-stringify the argument, logs it, and return the string.</p>
 </dd>
-<dt><a href="#beautify">beautify(neoRes)</a> ⇒ <code>Array</code></dt>
-<dd><p>Beautify neoRes.</p>
+<dt><a href="#beautify">beautify(neoRes, fn)</a> ⇒ <code>string</code></dt>
+<dd><p>Beautify the entire neoRes by internally calling transform(neoRes) -&gt; array of tables -&gt; beautifyMat on each table -&gt; join(&#39;\n\n\n&#39;)</p>
+</dd>
+<dt><a href="#beautifyMat">beautifyMat(mat)</a> ⇒ <code>string</code></dt>
+<dd><p>Beautify a matrix by JSON.stringify -&gt; join(&#39;\n\n&#39;) -&gt; join(&#39;\n\n---\n\n&#39;) to separate rows, and wrap with &#39;```&#39;</p>
+</dd>
+<dt><a href="#transform">transform(neoRes, fn)</a> ⇒ <code>Array</code></dt>
+<dd><p>Format the entire neoRes into an array of qRes tables.</p>
 </dd>
 </dl>
 
@@ -502,13 +508,117 @@ A conveience method. JSON-stringify the argument, logs it, and return the string
 | arg | <code>JSON</code> | The JSON to be stringified. |
 
 <a name="beautify"></a>
-## beautify(neoRes) ⇒ <code>Array</code>
-Beautify neoRes.
+## beautify(neoRes, fn) ⇒ <code>string</code>
+Beautify the entire neoRes by internally calling transform(neoRes) -> array of tables -> beautifyMat on each table -> join('\n\n\n')
 
 **Kind**: global function  
-**Returns**: <code>Array</code> - Beautified, sorted result  
+**Returns**: <code>string</code> - The beautified neo4j result  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| neoRes | <code>Array</code> | Neo4j JSON results. |
+| neoRes | <code>Array</code> | Result from Neo4j |
+| fn | <code>function</code> | A transformer function |
 
+**Example**  
+var neoRes = [{"columns":["a"],"data":[{"row":[{"slack__profile__fields ...
+beautify(neoRes)
+// => '```
+"a"
+
+---
+
+{
+ "slack__profile__fields__Xf0DAVBL83__alt": "",
+...
+```'
+
+// if supply a transformer
+function parseUser(userObj) {
+  return _.pick(userObj, ['name', 'real_name', 'id', 'email_address'])
+}
+
+beautify(neoRes, parseUser)
+// => '```
+"a"
+
+---
+
+{ name: 'alice',
+  real_name: 'Alice Bloom',
+  id: 'ID0000001',
+  email_address: 'alice@email.com' },
+ ... 
+```'
+<a name="beautifyMat"></a>
+## beautifyMat(mat) ⇒ <code>string</code>
+Beautify a matrix by JSON.stringify -> join('\n\n') -> join('\n\n---\n\n') to separate rows, and wrap with '```'
+
+**Kind**: global function  
+**Returns**: <code>string</code> - The beautified matrix string  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| mat | <code>Array</code> | Matrix of data to beautify |
+
+**Example**  
+var mat = [[{a:1, b:{c:2}}, 0], [{a:3, b:{c:4}}, 1]]
+beautifyMat(mat)
+// =>
+'```
+{
+  "a": 1,
+  "b": {
+    "c": 2
+  }
+}
+
+0
+
+---
+
+{
+  "a": 3,
+  "b": {
+    "c": 4
+  }
+}
+
+1
+```'
+<a name="transform"></a>
+## transform(neoRes, fn) ⇒ <code>Array</code>
+Format the entire neoRes into an array of qRes tables.
+
+**Kind**: global function  
+**Returns**: <code>Array</code> - neoRes as an array of qRes tables.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| neoRes | <code>Array</code> | Neo4j raw results, neoRes = [q0res, q1res, ...] |
+| fn | <code>function</code> | A transformer to apply to row elements. |
+
+**Example**  
+```js
+var neoRes = [{"columns":["a"],"data":[{"row":[{"slack__profile__fields ...
+transform(neoRes)
+// => [
+[ [ 'a' ],
+[ { slack__profile__fields__Xf0DAVBL83__alt: '', 
+...]
+]
+
+// if supply a transformer
+function parseUser(userObj) {
+  return _.pick(userObj, ['name', 'real_name', 'id', 'email_address'])
+}
+
+transform(neoRes, parseUser)
+// => [
+[ [ 'a' ],
+[ { name: 'alice',
+ real_name: 'Alice Bloom',
+ id: 'ID0000001',
+ email_address: 'alice@email.com' },
+ ... ]
+]
+```
