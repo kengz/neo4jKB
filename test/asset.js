@@ -38,8 +38,78 @@ labelEdge2 = 'next_2',
 propE = cons.legalize({ name: 'E', hash_by: 'name' }),
 propE2 = cons.legalize({ name: 'E2', hash_by: 'name' }),
 propEi = { name: 'E' },
-propE2i = { name: 'E2' };
-distE = '*..2'
+propE2i = { name: 'E2' },
+distE = '*..2',
+user = {
+  "id": "ID0000001",
+  "name": "alice",
+  "email_address": "alice@email.com",
+  "slack": {
+    "id": "ID0000001",
+    "team_id": "TD0000001",
+    "name": "alice",
+    "deleted": false,
+    "presence": "away"
+  }
+},
+neoRes = [{
+  "columns": ["a"],
+  "data": [{
+    "row": [{
+      "id": "ID0000001",
+      "name": "alice",
+      "email_address": "alice@email.com",
+      "slack__id": "ID0000001",
+      "slack__team_id": "TD0000001",
+      "slack__name": "alice",
+      "slack__deleted": false,
+      "slack__presence": "away",
+      "hash_by": "id",
+      "hash": "ID0000001",
+      "updated_by": "bot",
+      "updated_when": "2016-01-29T16:03:19.592Z"
+    }, {
+      "id": "ID0000002",
+      "name": "bob",
+      "email_address": "bob@email.com",
+      "slack__id": "ID0000002",
+      "slack__team_id": "TD0000002",
+      "slack__name": "bob",
+      "slack__deleted": false,
+      "slack__presence": "away",
+      "hash_by": "id",
+      "hash": "ID0000002",
+      "updated_by": "bot",
+      "updated_when": "2016-01-29T16:03:19.594Z"
+    }, {
+      "id": "USLACKBOT",
+      "name": "slackbot",
+      "real_name": "slackbot",
+      "email_address": null,
+      "slack__id": "USLACKBOT",
+      "slack__team_id": "T07S1438V",
+      "slack__name": "slackbot",
+      "slack__deleted": false,
+      "slack__status": null,
+      "slack__color": "757575",
+      "slack__real_name": "slackbot",
+      "slack__tz": null,
+      "slack__tz_label": "Pacific Standard Time",
+      "slack__tz_offset": -28800,
+      "slack__is_admin": false,
+      "slack__is_owner": false,
+      "slack__is_primary_owner": false,
+      "slack__is_restricted": false,
+      "slack__is_ultra_restricted": false,
+      "slack__is_bot": false,
+      "slack__presence": "active",
+      "hash_by": "id",
+      "hash": "USLACKBOT",
+      "updated_by": "bot",
+      "updated_when": "2016-01-29T16:03:19.594Z"
+    }]
+  }]
+}]
 
 
 var A = {
@@ -81,6 +151,10 @@ var A = {
   propLabelEi: [propEi, labelEdge],
   propLabelE2i: [propE2i, labelEdge2],
   distLabelE: [distE, labelEdge],
+
+  obj: { a: 0, b: {c: 1}, d: [2,3,4] },
+  user: user,
+  neoRes: neoRes,
 
   flush: flush,
   clearTest: clearTest,

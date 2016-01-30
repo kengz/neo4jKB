@@ -54,6 +54,15 @@ The sentence also consists of variables and operators <op>. The permissible oper
 <dt><a href="#transform">transform(neoRes, fn)</a> ⇒ <code>Array</code></dt>
 <dd><p>Format the entire neoRes into an array of qRes tables.</p>
 </dd>
+<dt><a href="#parseKV">parseKV(obj)</a> ⇒ <code>Array</code></dt>
+<dd><p>Parse a JSON object into array to [&#39;k: v&#39;, &#39;k: v&#39;], where v is attemptedly stringified.</p>
+</dd>
+<dt><a href="#parseUser">parseUser(userObj)</a> ⇒ <code>string</code></dt>
+<dd><p>A beautify transformer method to parse user, picking out name, real_name, id, email_address; uses parseKV internally.</p>
+</dd>
+<dt><a href="#leftJoin">leftJoin(propArr, match, [boolOp])</a> ⇒ <code>string</code></dt>
+<dd><p>Helper to generate wOp for matching multiple properties to the same value.</p>
+</dd>
 </dl>
 
 <a name="cons"></a>
@@ -621,4 +630,75 @@ transform(neoRes, parseUser)
  email_address: 'alice@email.com' },
  ... ]
 ]
+```
+<a name="parseKV"></a>
+## parseKV(obj) ⇒ <code>Array</code>
+Parse a JSON object into array to ['k: v', 'k: v'], where v is attemptedly stringified.
+
+**Kind**: global function  
+**Returns**: <code>Array</code> - of strings like ['k: v', 'k: v']
+
+var obj = {
+  a: 1,
+  b: {c:2}
+}
+parseKV(obj)
+// => [ 'a: 1', 'b: {\n  "c": 2\n}' ]  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| obj | <code>JSON</code> | Object to parse |
+
+<a name="parseUser"></a>
+## parseUser(userObj) ⇒ <code>string</code>
+A beautify transformer method to parse user, picking out name, real_name, id, email_address; uses parseKV internally.
+
+**Kind**: global function  
+**Returns**: <code>string</code> - The parse string of user.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userObj | <code>JSON</code> | The user node property object |
+
+**Example**  
+```js
+var user = {
+  "id": "ID0000001",
+  "name": "alice",
+  "email_address": "alice@email.com",
+  "slack": {
+    "id": "ID0000001",
+    "team_id": "TD0000001",
+    "name": "alice",
+    "deleted": false,
+    "presence": "away"
+  }
+}
+parseUser(user)
+// => 'name: alice
+// id: ID0000001
+// email_address: alice@email.com'
+```
+<a name="leftJoin"></a>
+## leftJoin(propArr, match, [boolOp]) ⇒ <code>string</code>
+Helper to generate wOp for matching multiple properties to the same value.
+
+**Kind**: global function  
+**Returns**: <code>string</code> - wOp string.  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| propArr | <code>Array</code> |  | Array of strings of prop, may be prepended with the subjects 'a, e, b' or not (defaulted to a.) |
+| match | <code>string</code> |  | The match operator string. |
+| [boolOp] | <code>string</code> | <code>&quot;&#x27;OR&#x27;&quot;</code> | The boolean to concat these matches together. |
+
+**Example**  
+```js
+var ws = 'WHERE ' + leftJoin(['name', 'real_name', 'a.id', 'a.email_address'], '=~ "(?i).*alice.*"')
+// => WHERE a.name=~ "(?i).*alice.*" OR a.real_name=~ "(?i).*alice.*" OR a.id=~ "(?i).*alice.*" OR a.email_address=~ "(?i).*alice.*"
+// note that 'name' and 'real_name' and defaulted to 'a.name' and 'a.real_name'
+
+// changing the default operator to AND
+var ws = 'WHERE' + leftJoin(['name', 'real_name', 'a.id', 'a.email_address'], '=~ "(?i).*alice.*"', 'AND')
+// => WHERE a.name=~ "(?i).*alice.*" AND a.real_name=~ "(?i).*alice.*" AND a.id=~ "(?i).*alice.*" AND a.email_address=~ "(?i).*alice.*"
 ```
