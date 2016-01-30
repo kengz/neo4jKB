@@ -136,11 +136,9 @@ As a tradeoff, we will provide an easy lookup function to yield the user node on
 ## Todo
 - search engine
 - add other macro micro graph property methods
-- user lookup function by ID etc
 - chronos method
 - permission, belongs_to, context tag, priority level
 - db migration and recovery
-- need unflattenJSON method in lomath
 
 
 ## Changelog
