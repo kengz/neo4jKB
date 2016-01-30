@@ -21,6 +21,12 @@ suite('parse', function() {
     })
   })
 
+  suite('parseKV', function() {
+    test('(obj)', function() {
+      KB.parseKV(A.obj).join('\n').should.equal('a: 0\nb: {\n  "c": 1\n}\nd: [\n  2,\n  3,\n  4\n]')
+    })
+  })
+
   suite('cleanUser', function() {
     test('(user)', function() {
       KB.cleanUser(A.user).should.eql({
@@ -31,18 +37,17 @@ suite('parse', function() {
     })
   })
 
-  suite('parseKV', function() {
-    test('(obj)', function() {
-      KB.parseKV(A.obj).join('\n').should.equal('a: 0\nb: {\n  "c": 1\n}\nd: [\n  2,\n  3,\n  4\n]')
-    })
-  })
-
   suite('parseUser', function() {
     test('(user)', function() {
       KB.parseUser(A.user).should.equal('name: alice\nid: ID0000001\nemail_address: alice@email.com')
     })
   })
 
+  suite('parseObj', function() {
+    test('(obj)', function() {
+      KB.parseObj(A.user, ['name', 'real_name', 'id', 'email_address']).should.equal('name: alice\nid: ID0000001\nemail_address: alice@email.com')
+    })
+  })
 
 })
 

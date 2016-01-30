@@ -57,8 +57,14 @@ The sentence also consists of variables and operators <op>. The permissible oper
 <dt><a href="#parseKV">parseKV(obj)</a> ⇒ <code>Array</code></dt>
 <dd><p>Parse a JSON object into array to [&#39;k: v&#39;, &#39;k: v&#39;], where v is attemptedly stringified.</p>
 </dd>
+<dt><a href="#cleanUser">cleanUser(userObj)</a> ⇒ <code>JSON</code></dt>
+<dd><p>Cleanup the user object by picking out name, real_name, id, email_address.</p>
+</dd>
 <dt><a href="#parseUser">parseUser(userObj)</a> ⇒ <code>string</code></dt>
 <dd><p>A beautify transformer method to parse user, picking out name, real_name, id, email_address; uses parseKV internally.</p>
+</dd>
+<dt><a href="#parseObj">parseObj(obj, keyArr)</a> ⇒ <code>Array</code></dt>
+<dd><p>A beautify transformer method to parse object, picking out keys from keyArr; uses parseKV internally.</p>
 </dd>
 <dt><a href="#leftJoin">leftJoin(propArr, match, [boolOp])</a> ⇒ <code>string</code></dt>
 <dd><p>Helper to generate wOp for matching multiple properties to the same value.</p>
@@ -649,12 +655,45 @@ parseKV(obj)
 | --- | --- | --- |
 | obj | <code>JSON</code> | Object to parse |
 
+<a name="cleanUser"></a>
+## cleanUser(userObj) ⇒ <code>JSON</code>
+Cleanup the user object by picking out name, real_name, id, email_address.
+
+**Kind**: global function  
+**Returns**: <code>JSON</code> - The cleaned prop object  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userObj | <code>JSON</code> | The user node property object |
+
+**Example**  
+```js
+var user = {
+  "id": "ID0000001",
+  "name": "alice",
+  "email_address": "alice@email.com",
+  "slack": {
+    "id": "ID0000001",
+    "team_id": "TD0000001",
+    "name": "alice",
+    "deleted": false,
+    "presence": "away"
+  }
+}
+
+cleanUser(user)
+// => {
+//   "id": "ID0000001",
+//   "name": "alice",
+//   "email_address": "alice@email.com",
+// }
+```
 <a name="parseUser"></a>
 ## parseUser(userObj) ⇒ <code>string</code>
 A beautify transformer method to parse user, picking out name, real_name, id, email_address; uses parseKV internally.
 
 **Kind**: global function  
-**Returns**: <code>string</code> - The parse string of user.  
+**Returns**: <code>string</code> - The parsed string of user.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -679,6 +718,18 @@ parseUser(user)
 // id: ID0000001
 // email_address: alice@email.com'
 ```
+<a name="parseObj"></a>
+## parseObj(obj, keyArr) ⇒ <code>Array</code>
+A beautify transformer method to parse object, picking out keys from keyArr; uses parseKV internally.
+
+**Kind**: global function  
+**Returns**: <code>Array</code> - The parsed string of object.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| obj | <code>JSON</code> | The object |
+| keyArr | <code>Array</code> | Of key to pick |
+
 <a name="leftJoin"></a>
 ## leftJoin(propArr, match, [boolOp]) ⇒ <code>string</code>
 Helper to generate wOp for matching multiple properties to the same value.
