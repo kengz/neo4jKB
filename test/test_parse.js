@@ -21,6 +21,16 @@ suite('parse', function() {
     })
   })
 
+  suite('cleanUser', function() {
+    test('(user)', function() {
+      KB.cleanUser(A.user).should.eql({
+        "id": "ID0000001",
+        "name": "alice",
+        "email_address": "alice@email.com",
+      })
+    })
+  })
+
   suite('parseKV', function() {
     test('(obj)', function() {
       KB.parseKV(A.obj).join('\n').should.equal('a: 0\nb: {\n  "c": 1\n}\nd: [\n  2,\n  3,\n  4\n]')
