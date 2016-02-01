@@ -6,6 +6,12 @@ suite('parse', function() {
     })
   })
 
+  suite('transBeautify', function() {
+    test('(transNeoRes)', function() {
+      KB.transBeautify(KB.transform(A.neoRes, KB.parseUser)).should.equal('```\na\n\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n```')
+    })
+  })
+
   suite('transform', function() {
     test('(neoRes, KB.parseUser)', function() {
       console.log(KB.transform(A.neoRes, KB.parseUser))
