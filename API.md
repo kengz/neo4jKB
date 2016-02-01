@@ -132,6 +132,21 @@ cons.legalize(prop1)
 // hash: 'A',
 // updated_by: 'bot',
 // updated_when: 1452802513112 }
+
+// quick constructor of a legal prop
+cons.legalize('A')
+// { name: 'A',
+//   hash_by: 'name',
+//   hash: 'A',
+//   updated_by: 'bot',
+//   updated_when: '2016-02-01T20:34:02.582Z' }
+
+cons.legalize('A', 'updated_when')
+// { name: 'A',
+//   hash_by: 'updated_when',
+//   hash: '2016-02-01T20:34:02.603Z',
+//   updated_by: 'bot',
+//   updated_when: '2016-02-01T20:34:02.603Z' }
 ```
 <a name="cons.isLegalSentence"></a>
 ### cons.isLegalSentence(str) ⇒ <code>Boolean</code>
