@@ -738,7 +738,7 @@ var obj = {
   b: {c:2}
 }
 parseKV(obj)
-// => [ 'a: 1', 'b: {\n  "c": 2\n}' ]  
+// => 'a: 1\nb: {\n  "c": 2\n}'  
 
 | Param | Type | Description |
 | --- | --- | --- |

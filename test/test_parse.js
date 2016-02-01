@@ -42,7 +42,7 @@ suite('parse', function() {
 
   suite('parseKV', function() {
     test('(obj)', function() {
-      KB.parseKV(A.obj).join('\n').should.equal('a: 0\nb: {\n  "c": 1\n}\nd: [\n  2,\n  3,\n  4\n]')
+      KB.parseKV(A.obj).should.equal('a: 0\nb: {\n  "c": 1\n}\nd: [\n  2,\n  3,\n  4\n]')
     })
   })
 

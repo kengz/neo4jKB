@@ -1,6 +1,6 @@
 {
   "name": "neo4jkb",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "A graph knowledge base implemented in neo4j.",
   "main": "index.js",
   "scripts": {
