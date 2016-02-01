@@ -14,7 +14,6 @@ suite('parse', function() {
 
   suite('transform', function() {
     test('(neoRes, KB.parseUser)', function() {
-      console.log(KB.transform(A.neoRes, KB.parseUser))
       KB.transform(A.neoRes, KB.parseUser).should.eql([
         [
           ['a'],
@@ -29,7 +28,6 @@ suite('parse', function() {
 
   suite('transform**', function() {
     test('(transform(neoRes), KB.parseUser)', function() {
-      console.log(KB.transform(KB.transform(A.neoRes), KB.parseUser))
       KB.transform(A.neoRes, KB.parseUser).should.eql([
         [
           ['a'],
