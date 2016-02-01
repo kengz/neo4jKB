@@ -134,7 +134,6 @@ As a tradeoff, we will provide an easy lookup function to yield the user node on
 
 
 ## Todo
-- support sequential transformations
 - search engine
 - add other macro micro graph property methods
 - chronos method
@@ -156,3 +155,4 @@ As a tradeoff, we will provide an easy lookup function to yield the user node on
 - timestamp in `cons.now` uses the ISO 8601 format, e.g. `2016-01-22T15:07:25.550Z`
 - list the set of permissible query ops
 - support `NODE_ENV=development`: all labels created will be prepended with 'test_'. This allows one to isolate the effects of devs and tests from the KB, as well as easy cleaning post-test.
+- support sequential transformations
