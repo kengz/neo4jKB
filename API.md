@@ -653,17 +653,17 @@ beautifyMat(mat)
 Format the entire neoRes into an array of qRes tables. Can be called multiply for sequential transformation.
 
 **Kind**: global function  
-**Returns**: <code>Array</code> - neoRes as an array of qRes tables.  
+**Returns**: <code>Array</code> - neoRes as an array of qRes tables with transformed elements.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| neoRes | <code>Array</code> | Neo4j raw results, neoRes = [q0res, q1res, ...] |
+| neoRes | <code>Array</code> | Neo4j raw results, neoRes = [q0res, q1res, ...], or the transformed neoRes. |
 | fn | <code>function</code> | A transformer to apply to row elements. |
 
 **Example**  
 ```js
 var neoRes = [{"columns":["a"],"data":[{"row":[{"slack__profile__fields ...
-transform(neoRes)
+neoRes = transform(neoRes)
 // => [
 [ [ 'a' ],
 [ { slack__profile__fields__Xf0DAVBL83__alt: '', 

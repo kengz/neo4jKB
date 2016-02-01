@@ -27,6 +27,21 @@ suite('parse', function() {
     })
   })
 
+  suite('transform**', function() {
+    test('(transform(neoRes), KB.parseUser)', function() {
+      console.log(KB.transform(KB.transform(A.neoRes), KB.parseUser))
+      KB.transform(A.neoRes, KB.parseUser).should.eql([
+        [
+          ['a'],
+          ['name: alice\nid: ID0000001\nemail_address: alice@email.com',
+            'name: bob\nid: ID0000002\nemail_address: bob@email.com',
+            'name: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null'
+          ]
+        ]
+      ])
+    })
+  })
+
   suite('parseKV', function() {
     test('(obj)', function() {
       KB.parseKV(A.obj).join('\n').should.equal('a: 0\nb: {\n  "c": 1\n}\nd: [\n  2,\n  3,\n  4\n]')
