@@ -575,7 +575,7 @@ Transform and beautify the entire neoRes by internally calling transform(neoRes)
 | Param | Type | Description |
 | --- | --- | --- |
 | neoRes | <code>Array</code> | Result from Neo4j |
-| fn | <code>function</code> | A transformer function |
+| fn | <code>function</code> &#124; <code>Array</code> | A transformer function or many of them in an array |
 
 **Example**  
 var neoRes = [{"columns":["a"],"data":[{"row":[{"slack__profile__fields ...
@@ -626,7 +626,7 @@ Beautify for post-transformation: beautify the transformed neoRes by internally 
 | Param | Type | Description |
 | --- | --- | --- |
 | transNeoRes | <code>Array</code> | (Transformed) result from Neo4j |
-| fn | <code>function</code> | A transformer function |
+| fn | <code>function</code> &#124; <code>Array</code> | A transformer function or many of them in an array |
 
 **Example**  
 var neoRes = [{"columns":["a"],"data":[{"row":[{"slack__profile__fields ...
@@ -698,7 +698,7 @@ Format the entire neoRes into an array of qRes tables. Can be called multiply fo
 | Param | Type | Description |
 | --- | --- | --- |
 | neoRes | <code>Array</code> | Neo4j raw results, neoRes = [q0res, q1res, ...], or the transformed neoRes. |
-| fn | <code>function</code> | A transformer to apply to row elements. |
+| fn | <code>function</code> &#124; <code>Array</code> | A transformer function or many of them in an array |
 
 **Example**  
 ```js
