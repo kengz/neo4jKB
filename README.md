@@ -156,3 +156,4 @@ As a tradeoff, we will provide an easy lookup function to yield the user node on
 - list the set of permissible query ops
 - support `NODE_ENV=development`: all labels created will be prepended with 'test_'. This allows one to isolate the effects of devs and tests from the KB, as well as easy cleaning post-test.
 - support sequential transformations
+- `cons.legalize` also acts as a quick legal prop constructor

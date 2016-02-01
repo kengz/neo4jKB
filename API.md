@@ -84,6 +84,7 @@ Call via KB.cons.<method>
 * [cons](#cons) : <code>Object</code>
     * [.now()](#cons.now) ⇒ <code>string</code>
     * [.legalize(prop, [msg], [hash_by])](#cons.legalize) ⇒ <code>JSON</code>
+    * [.illegalize(prop)](#cons.illegalize) ⇒ <code>JSON</code>
     * [.isLegalSentence(str)](#cons.isLegalSentence) ⇒ <code>Boolean</code>
 
 <a name="cons.now"></a>
@@ -147,6 +148,30 @@ cons.legalize('A', 'updated_when')
 //   hash: '2016-02-01T20:34:02.603Z',
 //   updated_by: 'bot',
 //   updated_when: '2016-02-01T20:34:02.603Z' }
+```
+<a name="cons.illegalize"></a>
+### cons.illegalize(prop) ⇒ <code>JSON</code>
+The opposite of legalize: Return a new prop with its mandatoryFields removed. Does not mutate object. Used to yield cleaner prop.
+
+**Kind**: static method of <code>[cons](#cons)</code>  
+**Returns**: <code>JSON</code> - Prop without the mandatory fields.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| prop | <code>JSON</code> | The prop to illegalize. |
+
+**Example**  
+```js
+var prop = {name: 'A'}
+cons.legalize(prop)
+// => prop = { name: 'A',
+  hash_by: 'hash',
+  hash: 'test',
+  updated_by: 'bot',
+  updated_when: '2016-02-01T22:02:34.822Z' }
+  
+cons.illegalize(prop)
+// => { name: 'A' }
 ```
 <a name="cons.isLegalSentence"></a>
 ### cons.isLegalSentence(str) ⇒ <code>Boolean</code>
