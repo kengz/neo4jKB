@@ -55,7 +55,7 @@ The sentence also consists of variables and operators <op>. The permissible oper
 <dd><p>Beautify a matrix by JSON.stringify -&gt; join(&#39;\n\n&#39;) -&gt; join(&#39;\n\n---\n\n&#39;) to separate rows, and wrap with &#39;```&#39;</p>
 </dd>
 <dt><a href="#transform">transform(neoRes, fn)</a> ⇒ <code>Array</code></dt>
-<dd><p>Format the entire neoRes into an array of qRes tables.</p>
+<dd><p>Format the entire neoRes into an array of qRes tables. Can be called multiply for sequential transformation.</p>
 </dd>
 <dt><a href="#parseKV">parseKV(obj)</a> ⇒ <code>Array</code></dt>
 <dd><p>Parse a JSON object into array to [&#39;k: v&#39;, &#39;k: v&#39;], where v is attemptedly stringified.</p>
@@ -650,7 +650,7 @@ beautifyMat(mat)
 ```'
 <a name="transform"></a>
 ## transform(neoRes, fn) ⇒ <code>Array</code>
-Format the entire neoRes into an array of qRes tables.
+Format the entire neoRes into an array of qRes tables. Can be called multiply for sequential transformation.
 
 **Kind**: global function  
 **Returns**: <code>Array</code> - neoRes as an array of qRes tables.  
@@ -675,6 +675,7 @@ function parseUser(userObj) {
   return _.pick(userObj, ['name', 'real_name', 'id', 'email_address'])
 }
 
+// second call in sequence, keep transforming
 transform(neoRes, parseUser)
 // => [
 [ [ 'a' ],

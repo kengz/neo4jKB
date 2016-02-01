@@ -134,6 +134,7 @@ As a tradeoff, we will provide an easy lookup function to yield the user node on
 
 
 ## Todo
+- support sequential transformations
 - search engine
 - add other macro micro graph property methods
 - chronos method
