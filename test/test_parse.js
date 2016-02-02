@@ -257,4 +257,18 @@ suite('query helpers', function() {
   })
 
 
+  suite('flattenIndex', function() {
+    test('matrix of JSON', function() {
+      var mat = KB.sorter(['id'])(KB.transform(A.neoRes, KB.cleanUser))
+      KB.flattenIndex(mat).should.eql('0. alice\nid: ID0000001\nemail_address: alice@email.com\n1. bob\nid: ID0000002\nemail_address: bob@email.com\n2. slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null')
+    })
+
+    test('matrix of string', function() {
+      var mat = KB.transform(A.neoRes, [KB.cleanUser, _.values, _.first])
+      KB.flattenIndex(mat).should.eql('0. alice\n1. bob\n2. slackbot')
+    })
+
+  })
+
+
 })

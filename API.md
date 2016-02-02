@@ -73,13 +73,16 @@ The sentence also consists of variables and operators <op>. The permissible oper
 <dd><p>Helper to generate wOp for matching multiple properties to the same value.</p>
 </dd>
 <dt><a href="#sorter">sorter(iteratees)</a> ⇒ <code>function</code></dt>
-<dd><p>Generate a function to sort the rows of a matrix passed to it using _.sortBy and iteratees. Will flatten matrix if not already.</p>
+<dd><p>Generate a function to sort the rows of a matrix passed to it using _.sortBy and iteratees.</p>
 </dd>
 <dt><a href="#picker">picker(iteratees)</a> ⇒ <code>function</code></dt>
 <dd><p>For use with transform. Generate a picker function using _.pick with a supplied iteratees.</p>
 </dd>
 <dt><a href="#pickerBy">pickerBy(iteratees)</a> ⇒ <code>function</code></dt>
 <dd><p>For use with transform. Generate a picker function using _.pickBy with a supplied iteratees.</p>
+</dd>
+<dt><a href="#flattenIndex">flattenIndex(mat)</a> ⇒ <code>string</code></dt>
+<dd><p>Flatten and index a matrix of objects into formatted string. &#39;name&#39; key will always appear first next to index.</p>
 </dd>
 </dl>
 
@@ -862,7 +865,7 @@ var ws = 'WHERE' + leftJoin(['name', 'real_name', 'a.id', 'a.email_address'], '=
 ```
 <a name="sorter"></a>
 ## sorter(iteratees) ⇒ <code>function</code>
-Generate a function to sort the rows of a matrix passed to it using _.sortBy and iteratees. Will flatten matrix if not already.
+Generate a function to sort the rows of a matrix passed to it using _.sortBy and iteratees.
 
 **Kind**: global function  
 **Returns**: <code>function</code> - To sort rows in, and flatten a taken matrix.  
@@ -893,3 +896,60 @@ For use with transform. Generate a picker function using _.pickBy with a supplie
 | --- | --- | --- |
 | iteratees | <code>string</code> &#124; <code>Array</code> | Of _.pickBy |
 
+<a name="flattenIndex"></a>
+## flattenIndex(mat) ⇒ <code>string</code>
+Flatten and index a matrix of objects into formatted string. 'name' key will always appear first next to index.
+
+**Kind**: global function  
+**Returns**: <code>string</code> - The formatted string  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| mat | <code>Array</code> | Matrix of JSON objects or string. |
+
+**Example**  
+```js
+flattenIndex([
+  [{
+    name: 'alice',
+    id: 'ID0000001',
+    email_address: 'alice@email.com'
+  }],
+  [{
+    name: 'bob',
+    id: 'ID0000002',
+    email_address: 'bob@email.com'
+  }],
+  [{
+    name: 'slackbot',
+    real_name: 'slackbot',
+    id: 'USLACKBOT',
+    email_address: null
+  }]
+])
+// => 0. alice
+id: ID0000001
+email_address: alice@email.com
+1. bob
+id: ID0000002
+email_address: bob@email.com
+2. slackbot
+real_name: slackbot
+id: USLACKBOT
+email_address: null
+
+flattenIndex([
+  [{
+    name: 'alice'
+  }],
+  [{
+    name: 'bob'
+  }],
+  [{
+    name: 'slackbot'
+  }]
+])
+// => 0. alice
+1. bob
+2. slackbot
+```
