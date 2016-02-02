@@ -2,25 +2,28 @@ suite('parse', function() {
 
   suite('beautify', function() {
     test('(neoRes_single, KB.parseUser)', function() {
-      KB.beautify(A.neoRes, KB.parseUser).should.equal('```\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n\n---\n\n\n```')
+      KB.beautify(A.neoRes, KB.parseUser).should.equal('```\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n```')
     })
 
     test('(neoRes_single, KB.parseUser, keepHead)', function() {
-      KB.beautify(A.neoRes, KB.parseUser, true).should.equal('```\na\n\n---\n\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n\n---\n\n\n```')
+      KB.beautify(A.neoRes, KB.parseUser, true).should.equal('```\na\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n```')
     })
 
     test('(neoRes_multiple, KB.parseUser)', function() {
-      KB.beautify(_.flatten([A.neoRes, A.neoRes]), KB.parseUser).should.equal('```\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n\n---\n\n\n```\n\n\n```\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n\n---\n\n\n```')
+      KB.beautify(_.flatten([A.neoRes, A.neoRes]), KB.parseUser).should.equal('```\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n```\n\n\n```\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n```')
     })
   })
 
   suite('transBeautify', function() {
+    test('(string)', function() {
+      KB.transBeautify('name: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null').should.equal('```\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n```')
+    })
     test('(transNeoRes_single)', function() {
-      KB.transBeautify(KB.transform(A.neoRes, KB.parseUser)).should.equal('```\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n\n---\n\n\n```')
+      KB.transBeautify(KB.transform(A.neoRes, KB.parseUser)).should.equal('```\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n```')
     })
 
     test('(transNeoRes_multiple)', function() {
-      KB.transBeautify(KB.transform(_.flatten([A.neoRes, A.neoRes]), KB.parseUser)).should.equal('```\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n\n---\n\n\n```\n\n\n```\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n\n---\n\n\n```')
+      KB.transBeautify(KB.transform(_.flatten([A.neoRes, A.neoRes]), KB.parseUser)).should.equal('```\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n```\n\n\n```\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n```')
     })
   })
 
