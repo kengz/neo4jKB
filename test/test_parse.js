@@ -266,6 +266,18 @@ suite('query helpers', function() {
       KB.flattenIndex(mat).should.eql('0. alice\nid: ID0000001\nemail_address: alice@email.com\n1. bob\nid: ID0000002\nemail_address: bob@email.com\n2. slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null')
     })
 
+    test('matrix of JSON with name only', function() {
+      KB.flattenIndex([
+        [{
+          name: 'alice'
+        }, {
+          name: 'bob'
+        }, {
+          name: 'slackbot'
+        }]
+      ]).should.eql('0. alice\n1. bob\n2. slackbot')
+    })
+
     test('matrix of string', function() {
       var mat = KB.transform(A.neoRes, [KB.cleanUser, _.values, _.first])
       KB.flattenIndex(mat).should.eql('0. alice\n1. bob\n2. slackbot')
