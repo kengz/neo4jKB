@@ -45,17 +45,17 @@ The sentence also consists of variables and operators <op>. The permissible oper
 <dt><a href="#log">log(arg)</a> ⇒ <code>string</code></dt>
 <dd><p>A conveience method. JSON-stringify the argument, logs it, and return the string.</p>
 </dd>
-<dt><a href="#beautify">beautify(neoRes, fn)</a> ⇒ <code>string</code></dt>
-<dd><p>Transform and beautify the entire neoRes by internally calling transform(neoRes) -&gt; array of tables -&gt; beautifyMat on each table -&gt; join(&#39;\n\n\n&#39;)</p>
+<dt><a href="#beautify">beautify(neoRes, fn, [keepHead])</a> ⇒ <code>string</code></dt>
+<dd><p>Transform and beautify the entire neoRes by internally calling transform(neoRes) -&gt; array of tables -&gt; beautifyMat on each table -&gt; join(&#39;\n\n\n&#39;).  If neoRes has only one qRes, then returns the single transformed table.</p>
 </dd>
 <dt><a href="#transBeautify">transBeautify(transNeoRes, fn)</a> ⇒ <code>string</code></dt>
-<dd><p>Beautify for post-transformation: beautify the transformed neoRes by internally calling array of tables -&gt; beautifyMat on each table -&gt; join(&#39;\n\n\n&#39;). Note that neoRes must be transformed beforehand. This is for when transformation happens separately.</p>
+<dd><p>Beautify for post-transformation: beautify the transformed neoRes by internally calling array of tables -&gt; beautifyMat on each table -&gt; join(&#39;\n\n\n&#39;). Note that neoRes must be transformed beforehand. This is for when transformation happens separately. If neoRes has only one qRes, then returns the single transformed table.</p>
 </dd>
 <dt><a href="#beautifyMat">beautifyMat(mat)</a> ⇒ <code>string</code></dt>
 <dd><p>Beautify a matrix by JSON.stringify -&gt; join(&#39;\n\n&#39;) -&gt; join(&#39;\n\n---\n\n&#39;) to separate rows, and wrap with &#39;```&#39;</p>
 </dd>
-<dt><a href="#transform">transform(neoRes, fn)</a> ⇒ <code>Array</code></dt>
-<dd><p>Format the entire neoRes into an array of qRes tables. Can be called multiply for sequential transformation.</p>
+<dt><a href="#transform">transform(neoRes, fn, [keepHead])</a> ⇒ <code>Array</code></dt>
+<dd><p>Format the entire neoRes into an array of qRes tables. Can be called multiply for sequential transformation. If neoRes has only one qRes, then returns the single transformed table.</p>
 </dd>
 <dt><a href="#parseKV">parseKV(obj)</a> ⇒ <code>Array</code></dt>
 <dd><p>Parse a JSON object into array to [&#39;k: v&#39;, &#39;k: v&#39;], where v is attemptedly stringified.</p>
@@ -71,6 +71,15 @@ The sentence also consists of variables and operators <op>. The permissible oper
 </dd>
 <dt><a href="#leftJoin">leftJoin(propArr, match, [boolOp])</a> ⇒ <code>string</code></dt>
 <dd><p>Helper to generate wOp for matching multiple properties to the same value.</p>
+</dd>
+<dt><a href="#sorter">sorter(iteratees)</a> ⇒ <code>function</code></dt>
+<dd><p>Generate a function to sort the rows of a matrix passed to it using _.sortBy and iteratees. Will flatten matrix if not already.</p>
+</dd>
+<dt><a href="#picker">picker(iteratees)</a> ⇒ <code>function</code></dt>
+<dd><p>For use with transform. Generate a picker function using _.pick with a supplied iteratees.</p>
+</dd>
+<dt><a href="#pickerBy">pickerBy(iteratees)</a> ⇒ <code>function</code></dt>
+<dd><p>For use with transform. Generate a picker function using _.pickBy with a supplied iteratees.</p>
 </dd>
 </dl>
 
@@ -566,16 +575,17 @@ A conveience method. JSON-stringify the argument, logs it, and return the string
 | arg | <code>JSON</code> | The JSON to be stringified. |
 
 <a name="beautify"></a>
-## beautify(neoRes, fn) ⇒ <code>string</code>
-Transform and beautify the entire neoRes by internally calling transform(neoRes) -> array of tables -> beautifyMat on each table -> join('\n\n\n')
+## beautify(neoRes, fn, [keepHead]) ⇒ <code>string</code>
+Transform and beautify the entire neoRes by internally calling transform(neoRes) -> array of tables -> beautifyMat on each table -> join('\n\n\n').  If neoRes has only one qRes, then returns the single transformed table.
 
 **Kind**: global function  
 **Returns**: <code>string</code> - The beautified neo4j result  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| neoRes | <code>Array</code> | Result from Neo4j |
-| fn | <code>function</code> &#124; <code>Array</code> | A transformer function or many of them in an array |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| neoRes | <code>Array</code> |  | Result from Neo4j |
+| fn | <code>function</code> &#124; <code>Array</code> |  | A transformer function or many of them in an array |
+| [keepHead] | <code>Boolean</code> | <code>false</code> | To drop the header or not. |
 
 **Example**  
 var neoRes = [{"columns":["a"],"data":[{"row":[{"slack__profile__fields ...
@@ -618,7 +628,7 @@ email_address: null
 ```'
 <a name="transBeautify"></a>
 ## transBeautify(transNeoRes, fn) ⇒ <code>string</code>
-Beautify for post-transformation: beautify the transformed neoRes by internally calling array of tables -> beautifyMat on each table -> join('\n\n\n'). Note that neoRes must be transformed beforehand. This is for when transformation happens separately.
+Beautify for post-transformation: beautify the transformed neoRes by internally calling array of tables -> beautifyMat on each table -> join('\n\n\n'). Note that neoRes must be transformed beforehand. This is for when transformation happens separately. If neoRes has only one qRes, then returns the single transformed table.
 
 **Kind**: global function  
 **Returns**: <code>string</code> - The beautified neo4j result  
@@ -689,24 +699,24 @@ beautifyMat(mat)
 1
 ```'
 <a name="transform"></a>
-## transform(neoRes, fn) ⇒ <code>Array</code>
-Format the entire neoRes into an array of qRes tables. Can be called multiply for sequential transformation.
+## transform(neoRes, fn, [keepHead]) ⇒ <code>Array</code>
+Format the entire neoRes into an array of qRes tables. Can be called multiply for sequential transformation. If neoRes has only one qRes, then returns the single transformed table.
 
 **Kind**: global function  
 **Returns**: <code>Array</code> - neoRes as an array of qRes tables with transformed elements.  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| neoRes | <code>Array</code> | Neo4j raw results, neoRes = [q0res, q1res, ...], or the transformed neoRes. |
-| fn | <code>function</code> &#124; <code>Array</code> | A transformer function or many of them in an array |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| neoRes | <code>Array</code> |  | Neo4j raw results, neoRes = [q0res, q1res, ...], or the transformed neoRes. |
+| fn | <code>function</code> &#124; <code>Array</code> |  | A transformer function or many of them in an array |
+| [keepHead] | <code>Boolean</code> | <code>false</code> | To drop the header or not. |
 
 **Example**  
 ```js
 var neoRes = [{"columns":["a"],"data":[{"row":[{"slack__profile__fields ...
 neoRes = transform(neoRes)
 // => [
-[ [ 'a' ],
-[ { slack__profile__fields__Xf0DAVBL83__alt: '', 
+[{ slack__profile__fields__Xf0DAVBL83__alt: '', 
 ...]
 ]
 
@@ -716,15 +726,23 @@ function parseUser(userObj) {
 }
 
 // second call in sequence, keep transforming
+// If neoRes has > 1 qRes table
 transform(neoRes, parseUser)
 // => [
-[ [ 'a' ],
-[ { name: 'alice',
+[{ name: 'alice',
  real_name: 'Alice Bloom',
  id: 'ID0000001',
  email_address: 'alice@email.com' },
  ... ]
 ]
+
+// If neoRes has 1 qRes table, return a non-nested result
+transform(neoRes, parseUser)
+// => [{ name: 'alice',
+ real_name: 'Alice Bloom',
+ id: 'ID0000001',
+ email_address: 'alice@email.com' },
+ ... ]
 ```
 <a name="parseKV"></a>
 ## parseKV(obj) ⇒ <code>Array</code>
@@ -842,3 +860,36 @@ var ws = 'WHERE ' + leftJoin(['name', 'real_name', 'a.id', 'a.email_address'], '
 var ws = 'WHERE' + leftJoin(['name', 'real_name', 'a.id', 'a.email_address'], '=~ "(?i).*alice.*"', 'AND')
 // => WHERE a.name=~ "(?i).*alice.*" AND a.real_name=~ "(?i).*alice.*" AND a.id=~ "(?i).*alice.*" AND a.email_address=~ "(?i).*alice.*"
 ```
+<a name="sorter"></a>
+## sorter(iteratees) ⇒ <code>function</code>
+Generate a function to sort the rows of a matrix passed to it using _.sortBy and iteratees. Will flatten matrix if not already.
+
+**Kind**: global function  
+**Returns**: <code>function</code> - To sort rows in, and flatten a taken matrix.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| iteratees | <code>function</code> &#124; <code>Object</code> &#124; <code>string</code> &#124; <code>Array</code> | Of _.sortBy |
+
+<a name="picker"></a>
+## picker(iteratees) ⇒ <code>function</code>
+For use with transform. Generate a picker function using _.pick with a supplied iteratees.
+
+**Kind**: global function  
+**Returns**: <code>function</code> - That picks iteratees of its argument.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| iteratees | <code>string</code> &#124; <code>Array</code> | Of _.pick |
+
+<a name="pickerBy"></a>
+## pickerBy(iteratees) ⇒ <code>function</code>
+For use with transform. Generate a picker function using _.pickBy with a supplied iteratees.
+
+**Kind**: global function  
+**Returns**: <code>function</code> - That picks by iteratees of its argument.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| iteratees | <code>string</code> &#124; <code>Array</code> | Of _.pickBy |
+
