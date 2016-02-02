@@ -6,7 +6,7 @@ suite('parse', function() {
     })
 
     test('(neoRes_single, KB.parseUser, keepHead)', function() {
-      KB.beautify(A.neoRes, KB.parseUser, true).should.equal('```\na\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n```')
+      KB.beautify(A.neoRes, KB.parseUser, true).should.equal('```\nheader: a\nname: alice\nid: ID0000001\nemail_address: alice@email.com\n\n---\n\nname: bob\nid: ID0000002\nemail_address: bob@email.com\n\n---\n\nname: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null\n```')
     })
 
     test('(neoRes_multiple, KB.parseUser)', function() {
@@ -39,7 +39,7 @@ suite('parse', function() {
 
     test('(neoRes_single, KB.parseUser, keepHead)', function() {
       KB.transform(A.neoRes, KB.parseUser, true).should.eql([
-        ['a'],
+        ['header: a'],
         ['name: alice\nid: ID0000001\nemail_address: alice@email.com',
           'name: bob\nid: ID0000002\nemail_address: bob@email.com',
           'name: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null'
@@ -67,8 +67,8 @@ suite('parse', function() {
   })
 
   suite('transform**', function() {
-    test('(transform(neoRes), KB.parseUser)', function() {
-      KB.transform(A.neoRes, KB.parseUser).should.eql([
+    test('transform(transform(neoRes), KB.cleanUser), parseUser)', function() {
+      KB.transform(KB.transform(A.neoRes, KB.cleanUser), KB.parseKV).should.eql([
         ['name: alice\nid: ID0000001\nemail_address: alice@email.com',
           'name: bob\nid: ID0000002\nemail_address: bob@email.com',
           'name: slackbot\nreal_name: slackbot\nid: USLACKBOT\nemail_address: null'
@@ -78,7 +78,7 @@ suite('parse', function() {
   })
 
   suite('transform[**]', function() {
-    test('(transform(neoRes, [KB.cleanUser, KB.parseUser])', function() {
+    test('transform(neoRes, [KB.cleanUser, KB.parseUser])', function() {
       KB.transform(A.neoRes, [KB.cleanUser, KB.parseUser]).should.eql([
         ['name: alice\nid: ID0000001\nemail_address: alice@email.com',
           'name: bob\nid: ID0000002\nemail_address: bob@email.com',
