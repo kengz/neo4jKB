@@ -132,54 +132,64 @@ suite('query helpers', function() {
 
   suite('sorter', function() {
     test('default iteratees = ["name"], (neoRes)', function() {
-      KB.sorter()(KB.transform(A.neoRes, KB.cleanUser)).should.eql([{
-        name: 'alice',
-        id: 'ID0000001',
-        email_address: 'alice@email.com'
-      }, {
-        name: 'bob',
-        id: 'ID0000002',
-        email_address: 'bob@email.com'
-      }, {
-        name: 'slackbot',
-        real_name: 'slackbot',
-        id: 'USLACKBOT',
-        email_address: null
-      }])
+      KB.sorter()(KB.transform(A.neoRes, KB.cleanUser)).should.eql([
+        [{
+          name: 'alice',
+          id: 'ID0000001',
+          email_address: 'alice@email.com'
+        }],
+        [{
+          name: 'bob',
+          id: 'ID0000002',
+          email_address: 'bob@email.com'
+        }],
+        [{
+          name: 'slackbot',
+          real_name: 'slackbot',
+          id: 'USLACKBOT',
+          email_address: null
+        }]
+      ])
     })
 
     test('default iteratees = ["name"], (_.flatten(neoRes))', function() {
-      KB.sorter()(_.flatten(KB.transform(A.neoRes, KB.cleanUser))).should.eql([{
-        name: 'alice',
-        id: 'ID0000001',
-        email_address: 'alice@email.com'
-      }, {
-        name: 'bob',
-        id: 'ID0000002',
-        email_address: 'bob@email.com'
-      }, {
-        name: 'slackbot',
-        real_name: 'slackbot',
-        id: 'USLACKBOT',
-        email_address: null
-      }])
+      KB.sorter()(_.flatten(KB.transform(A.neoRes, KB.cleanUser))).should.eql([
+        [{
+          name: 'alice',
+          id: 'ID0000001',
+          email_address: 'alice@email.com'
+        }, {
+          name: 'bob',
+          id: 'ID0000002',
+          email_address: 'bob@email.com'
+        }, {
+          name: 'slackbot',
+          real_name: 'slackbot',
+          id: 'USLACKBOT',
+          email_address: null
+        }]
+      ])
     })
 
     test('iteratees = ["id"], (neoRes)', function() {
-      KB.sorter(['id'])(KB.transform(A.neoRes, KB.cleanUser)).should.eql([{
-        name: 'alice',
-        id: 'ID0000001',
-        email_address: 'alice@email.com'
-      }, {
-        name: 'bob',
-        id: 'ID0000002',
-        email_address: 'bob@email.com'
-      }, {
-        name: 'slackbot',
-        real_name: 'slackbot',
-        id: 'USLACKBOT',
-        email_address: null
-      }])
+      KB.sorter(['id'])(KB.transform(A.neoRes, KB.cleanUser)).should.eql([
+        [{
+          name: 'alice',
+          id: 'ID0000001',
+          email_address: 'alice@email.com'
+        }],
+        [{
+          name: 'bob',
+          id: 'ID0000002',
+          email_address: 'bob@email.com'
+        }],
+        [{
+          name: 'slackbot',
+          real_name: 'slackbot',
+          id: 'USLACKBOT',
+          email_address: null
+        }]
+      ])
     })
 
   })
