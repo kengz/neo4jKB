@@ -159,3 +159,4 @@ As a tradeoff, we will provide an easy lookup function to yield the user node on
 - `cons.legalize` also acts as a quick legal prop constructor
 - add `sorter, picker` as transformer methods
 - add `flattenIndex` as generic matrix-to-string formatter
+- add opsHead to opsRe in `lib/constrain.js` for chaining
