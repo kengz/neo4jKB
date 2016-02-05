@@ -610,6 +610,7 @@ KB.query(qpPair)
 '[' + literalize([prop, label], 'e') + ']'
 // => [e:alpha  {name: {prop_e}.name}]
 
+// for edge with dist and label, custom identifier name 'e'
 '[' + literalize([dist, label], 'e') + ']'
 // => [e:alpha  *0..2]
 ```

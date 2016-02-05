@@ -39,4 +39,23 @@ suite('query', function() {
     ]).then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["a"],"data":[["A"]]},{"columns":["a"],"data":[["B"]]}]')
   })
 
+
+  suite('literalize', function() {
+    test('for node', function() {
+      KB.literalize(A.propLabelAi).should.equal('a:test_alpha  {name: {prop_a}.name}')
+    })
+
+    test('for node, with identifier name', function() {
+      KB.literalize(A.propLabelBi, 'b').should.equal('b:test_alpha  {name: {prop_b}.name}')
+    })
+
+    test('for edge with propLabel, using identifier name', function() {
+      KB.literalize(A.propLabelEi, 'e').should.equal('e:test_next  {name: {prop_e}.name}')
+    })
+
+    test('for edge with distLabel, using identifier name', function() {
+      KB.literalize(A.distLabelE, 'e').should.equal('e:test_next  *..2')
+    })
+  })
+
 })
