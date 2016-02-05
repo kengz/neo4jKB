@@ -134,6 +134,9 @@ As a tradeoff, we will provide an easy lookup function to yield the user node on
 
 
 ## Todo
+- query subs front, tail string free,
+nah, instead port over the param method to generate string with param.
+want. nah just use evaluation, provide a propLabel string generator
 - search engine
 - add other macro micro graph property methods
 - chronos method

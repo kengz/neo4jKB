@@ -42,6 +42,10 @@ The sentence also consists of variables and operators <op>. The permissible oper
 ## Functions
 
 <dl>
+<dt><a href="#literalize">literalize(propDistLabel, [name])</a> ⇒ <code>string</code></dt>
+<dd><p>Generalization of literalizeProp. Parses a propDistLabel array of prop-label or dist-label into a &#39;literal map&#39; string as required by neo4j error (unable to user parameter map in MATCH). On can pass the name of the identifier too.
+Beware: in the query-param pair, the param prop JSON must use the key &#39;prop_<identifier>&#39;. E.g. query param pair:</p>
+</dd>
 <dt><a href="#log">log(arg)</a> ⇒ <code>string</code></dt>
 <dd><p>A conveience method. JSON-stringify the argument, logs it, and return the string.</p>
 </dd>
@@ -565,6 +569,49 @@ query(
 ).then(KB.log)
 // => {"results":[{"columns":["n"],"data":[{"row":[{"num":3,"name":"c"}]},{"row":[{"num":4,"name":"d"}]}]},{"columns":["r"],"data":[{"row":[{}]}]}],"errors":[]}
 Created nodes 'c', 'd', then added an edge (c)->(d)
+```
+<a name="literalize"></a>
+## literalize(propDistLabel, [name]) ⇒ <code>string</code>
+Generalization of literalizeProp. Parses a propDistLabel array of prop-label or dist-label into a 'literal map' string as required by neo4j error (unable to user parameter map in MATCH). On can pass the name of the identifier too.
+Beware: in the query-param pair, the param prop JSON must use the key 'prop_<identifier>'. E.g. query param pair:
+
+**Kind**: global function  
+**Returns**: <code>string</code> - The result literal map string.  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| propDistLabel | <code>Array</code> |  | Array containing pair of (JSON)prop-(string)label or (string)dist-(string)label. |
+| [name] | <code>string</code> | <code>&quot;&#x27;a&#x27;&quot;</code> | Name of the identifier. |
+
+**Example**  
+```js
+var prop = {name: 'nodeName'}
+var label = 'alpha'
+var labelArr = ['alpha', 'beta']
+var dist = '*0..2'
+
+// for node
+'(' + literalize([prop, label]) + ')'
+// => (a:alpha  {name: {prop_a}.name})
+
+// for node with multiple labels; custom identifier name 'b'
+// Note that the param must use the same key 'prop_b' too
+var nodeStr = '(' + literalize([prop, labelArr], 'b') + ')'
+// => (b:alpha:beta  {name: {prop_b}.name})
+// to make the query param pair:
+var query = `CREATE ${nodeStr} RETURN b`
+var param = { prop_b: prop }
+qpPair = [query, param]
+// make the query:
+KB.query(qpPair)
+
+// for edge, custom identifier name 'e'
+// Note that the param must use the same key 'prop_e' too
+'[' + literalize([prop, label], 'e') + ']'
+// => [e:alpha  {name: {prop_e}.name}]
+
+'[' + literalize([dist, label], 'e') + ']'
+// => [e:alpha  *0..2]
 ```
 <a name="log"></a>
 ## log(arg) ⇒ <code>string</code>
