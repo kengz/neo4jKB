@@ -178,6 +178,12 @@ As a tradeoff, we will provide an easy lookup function to yield the user node on
 - agility: natural model(schema-free, expansive), proper query language
 
 
+#### What can be solved by AI exclusively?
+- quick KB
+- specific automation/proxy task
+- secretarial work
+- thus most vitally, context awareness and semantic understanding
+
 
 ## Todo
 - search engine
