@@ -14,10 +14,16 @@ suite('add', function() {
     return KB.add(A.propLabelAl).then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["a"],"data":[["A"]]}]')
   })
 
-  test('add node illegal cons error: (propLabelA)', function() {
+  test('add node illegal cons error: (propLabelAi)', function() {
     (function() {
       KB.add(A.propLabelAi)
     }).should.throw(Error)
+  })
+
+  test('add node illegal cons error msg: (propLabelAi)', function() {
+    (function() {
+      KB.add(A.propLabelAi)
+    }).should.throw(/Node constraints violated: The empty field, undefined, cannot be used as hash as demanded by 'hash_by'/)
   })
 
   test('must supply target node if adding edge: (propLabelA, propLabelE)', function() {
