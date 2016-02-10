@@ -101,7 +101,12 @@ buildGraph()
 To run the test, clone this repo, make sure you set the environment variable `NEO4J_AUTH=<username>:<password>` (or just save an `.env` if you like), then run `npm test`.
 
 
-## KB standard
+## DB migration
+
+[Install](https://github.com/jexp/neo4j-shell-tools/issues/72#issuecomment-182383650) the `neo4j-shell-tools` for db migration; use `export-graphml -o backup.graphml -t -r` and `import-graphml -i backup.graphml -t` from within `neo4j-shell`. Files will be saved to `${NEO4J_HOME}`.
+
+
+## KB standard (basic)
 We use a graph knowledge base (KB) to encode generic knowledge and relationships. The implementation is through a graph database - we choose Neo4j for the purpose. A graph consists of individual nodes connected with edges.
 
 
@@ -150,12 +155,35 @@ As a tradeoff, we will provide an easy lookup function to yield the user node on
 
 
 
+## KB standard (extended)
+- If global conflict may exist for a hash, localize it per owner-user by `<userHash>#<hashStr>`.
+- KB graph path should represent action pattern of action, e.g. `(user1)-[:assigns]->(task)-[:to]->(user2)`, so `(n)-[:to]->(user)` implies `n` is given, or belongs, to `user`. i.e. path/relationship transition
+- proper english in cypher, e.g. `(a)-[:assigns]->(t)`, then transition by tenses: `(a)->[:assigned]->(t)`. Deprecation by past-tense. Ohh you can also do continuing tense, like `(c)-[:doing]->(t)`. Preference: `(a)-[:prefers]->(sushi:lunch); (a)-[:prefers]->(cold:weather)`
+- advantage: if cypher is so much like english, in fact one can parse a subsbet of english sentences into cypher
+- generic auto context-mapper then graph constructor. e.g. for a sentence never been seen before, NLP parse 'gdoc1 refers gdoc2', in the form `(source)-[action]->(outcome)`, as `(gdoc1)-[ref]-(gdoc2)`, so parses `action` to a standard value, .e.g. maps `{links, link, refers, refs} => ref`, using word2vec and metric closeness. Then parse `source` and `outcome` by `MATCH` and `hash`.
+- state transition and causality
+- `add <notes>` parses into `(kengz)-[adds]->(<notes>)`.
+
+
+#### Neo4j Use cases
+- real time recommendation: by graph expansion and detection of change
+- master data management: who's reporting to what task and people
+- fraud detection: ohhh can uncover fraud mitigated a few steps away from the source, final in-degree, loops
+- graph based search
+- identity and access management
+
+#### Advantages
+- intuitiveness
+- speed
+- agility: natural model(schema-free, expansive), proper query language
+
+
+
 ## Todo
 - search engine
 - add other macro micro graph property methods
 - chronos method
 - permission, belongs_to, context tag, priority level
-- db migration and recovery
 
 
 ## Changelog
