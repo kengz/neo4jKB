@@ -14,12 +14,29 @@ Improvement is still underway, so it will be continuously updated.
 ## Installation
 
 
-```bash
+```shell
 npm i --save neo4jkb
 ```
 
 Ensure that you have `neo4j` installed, and start the server.
 
+## Backup
+Use the `neo4j-shell`, files will be saved to `${NEO4J_HOME}`:
+
+Export:
+
+```shell
+export-graphml -o backup.graphml -t -r
+```
+
+Import:
+
+```shell
+import-graphml -i backup.graphml -t
+```
+
+
+## Usage
 
 ```js
 // import and initialize
@@ -134,9 +151,6 @@ As a tradeoff, we will provide an easy lookup function to yield the user node on
 
 
 ## Todo
-- query subs front, tail string free,
-nah, instead port over the param method to generate string with param.
-want. nah just use evaluation, provide a propLabel string generator
 - search engine
 - add other macro micro graph property methods
 - chronos method
