@@ -3,14 +3,14 @@ suite('add', function() {
     return A.clearTest().then(function() {
       done()
       return 1
-    })
+    }).catch(console.log)
   })
 
   suiteTeardown(function(done) {
     return A.clearTest().then(function() {
       done()
       return 1
-    })
+    }).catch(console.log)
   })
 
   test('add node: (propLabelA)', function() {
@@ -73,14 +73,14 @@ suite('get', function() {
     return A.buildGraph().then(function() {
       done()
       return 1
-    })
+    }).catch(console.log)
   })
 
   teardown(function(done) {
     return A.clearTest().then(function() {
       done()
       return 1
-    })
+    }).catch(console.log)
   })
 
   test('default rOp: (propLabelA)', function() {

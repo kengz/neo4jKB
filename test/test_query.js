@@ -4,14 +4,14 @@ suite('query', function() {
     return A.buildGraph().then(function() {
       done()
       return 1
-    })
+    }).catch(console.log)
   })
 
   suiteTeardown(function(done) {
     return A.clearTest().then(function() {
       done()
       return 1
-    })
+    }).catch(console.log)
   })
 
   test('(query)', function() {

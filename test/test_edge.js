@@ -3,14 +3,14 @@ suite('addEdge', function() {
     return A.buildGraph().then(function() {
       done()
       return 1
-    })
+    }).catch(console.log)
   })
 
   teardown(function(done) {
     return A.clearTest().then(function() {
       done()
       return 1
-    })
+    }).catch(console.log)
   })
 
   test('(propLabelA, propLabelE, propLabelB)', function() {
@@ -36,14 +36,14 @@ suite('getEdge', function() {
     return A.buildGraph().then(function() {
       done()
       return 1
-    })
+    }).catch(console.log)
   })
 
   suiteTeardown(function(done) {
     return A.clearTest().then(function() {
       done()
       return 1
-    })
+    }).catch(console.log)
   })
 
   test('(propLabelA, propLabelE, propLabelB)', function() {
