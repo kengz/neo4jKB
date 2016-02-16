@@ -1,10 +1,16 @@
 suite('add', function() {
-  suiteSetup(function() {
-    return A.clearTest().catch(console.log)
+  suiteSetup(function(done) {
+    return A.clearTest().then(function() {
+      done()
+      return 1
+    })
   })
 
-  suiteTeardown(function() {
-    return A.clearTest().catch(console.log)
+  suiteTeardown(function(done) {
+    return A.clearTest().then(function() {
+      done()
+      return 1
+    })
   })
 
   test('add node: (propLabelA)', function() {
@@ -63,12 +69,18 @@ suite('add', function() {
 
 
 suite('get', function() {
-  setup(function() {
-    return A.buildGraph().catch(console.log)
+  setup(function(done) {
+    return A.buildGraph().then(function() {
+      done()
+      return 1
+    })
   })
 
-  teardown(function() {
-    return A.clearTest().catch(console.log)
+  teardown(function(done) {
+    return A.clearTest().then(function() {
+      done()
+      return 1
+    })
   })
 
   test('default rOp: (propLabelA)', function() {

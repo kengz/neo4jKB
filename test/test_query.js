@@ -1,8 +1,18 @@
 suite('query', function() {
 
-  suiteSetup(A.buildGraph)
+  suiteSetup(function(done) {
+    return A.buildGraph().then(function() {
+      done()
+      return 1
+    })
+  })
 
-  suiteTeardown(A.clearTest)
+  suiteTeardown(function(done) {
+    return A.clearTest().then(function() {
+      done()
+      return 1
+    })
+  })
 
   test('(query)', function() {
     return KB.query('MATCH (a:test_alpha) RETURN a').then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["a"],"data":[[1],[2],[3],["A"],["B"],["C"],["D"],["Z"]]}]')

@@ -1,10 +1,16 @@
 suite('addNode', function() {
-  suiteSetup(function() {
-    return A.clearTest().catch(console.log)
+  suiteSetup(function(done) {
+    return A.clearTest().then(function() {
+      done()
+      return 1
+    })
   })
 
-  teardown(function() {
-    return A.clearTest().catch(console.log)
+  teardown(function(done) {
+    return A.clearTest().then(function() {
+      done()
+      return 1
+    })
   })
 
   test('(propLabel)', function() {
@@ -25,12 +31,18 @@ suite('addNode', function() {
 
 
 suite('getNode', function() {
-  suiteSetup(function() {
-    return A.buildGraph().catch(console.log)
+  suiteSetup(function(done) {
+    return A.buildGraph().then(function() {
+      done()
+      return 1
+    })
   })
 
-  suiteTeardown(function() {
-    return A.clearTest().catch(console.log)
+  suiteTeardown(function(done) {
+    return A.clearTest().then(function() {
+      done()
+      return 1
+    })
   })
 
   test('(propLabel)', function() {
