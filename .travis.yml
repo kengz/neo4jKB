@@ -2,8 +2,13 @@ language: node_js
 node_js:
   - "5.5"
   - "4.2"
-jdk:
-  - oraclejdk7
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+      - openjdk-7-jdk
 before_install:
   # install Neo4j locally:
   - wget dist.neo4j.org/neo4j-community-2.3.0-unix.tar.gz
@@ -13,7 +18,9 @@ before_install:
 install:
   - npm install
 env:
-  - NEO4J_AUTH=neo4j:neo4j
+  global:
+    - CXX=g++-4.8
+    - NEO4J_AUTH=neo4j:neo4j
 matrix:
   fast_finish: true
   allow_failures:
