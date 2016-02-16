@@ -1,7 +1,11 @@
 suite('addEdge', function() {
-  setup(A.buildGraph)
+  setup(function() {
+    return A.buildGraph().catch(console.log)
+  })
 
-  teardown(A.clearTest)
+  teardown(function() {
+    return A.clearTest().catch(console.log)
+  })
 
   test('(propLabelA, propLabelE, propLabelB)', function() {
     return KB.addEdge(A.propLabelA, A.propLabelE, A.propLabelB).then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["e"],"data":[["E"]]}]')
@@ -22,9 +26,13 @@ suite('addEdge', function() {
 
 
 suite('getEdge', function() {
-  suiteSetup(A.buildGraph)
+  suiteSetup(function() {
+    return A.buildGraph().catch(console.log)
+  })
 
-  suiteTeardown(A.clearTest)
+  suiteTeardown(function() {
+    return A.clearTest().catch(console.log)
+  })
 
   test('(propLabelA, propLabelE, propLabelB)', function() {
     return KB.getEdge(A.propLabelA, A.propLabelE, A.propLabelB).then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["e"],"data":[["E"]]}]')

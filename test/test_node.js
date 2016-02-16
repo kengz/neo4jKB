@@ -1,7 +1,11 @@
 suite('addNode', function() {
-  suiteSetup(A.clearTest)
+  suiteSetup(function() {
+    return A.clearTest().catch(console.log)
+  })
 
-  teardown(A.clearTest)
+  teardown(function() {
+    return A.clearTest().catch(console.log)
+  })
 
   test('(propLabel)', function() {
     return KB.addNode(A.propLabelA).then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["a"],"data":[["A"]]}]')
@@ -21,9 +25,13 @@ suite('addNode', function() {
 
 
 suite('getNode', function() {
-  suiteSetup(A.buildGraph)
+  suiteSetup(function() {
+    return A.buildGraph().catch(console.log)
+  })
 
-  suiteTeardown(A.clearTest)
+  suiteTeardown(function() {
+    return A.clearTest().catch(console.log)
+  })
 
   test('(propLabel)', function() {
     return KB.getNode(A.propLabelA).then(A.extractRes).then(A.string).should.eventually.equal('[{"columns":["a"],"data":[["A"]]}]')
