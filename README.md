@@ -18,7 +18,8 @@ Improvement is still underway, so it will be continuously updated.
 npm i --save neo4jkb
 ```
 
-Ensure that you have `neo4j` installed, and start the server.
+Ensure that you have `neo4j` installed. From the terminal do `neo4j start`, change your password (if you haven't already) using `curl -H "Content-Type: application/json" -X POST -d '{"password":"YOUR_NEW_PASSWORD"}' -u neo4j:neo4j http://localhost:7474/user/neo4j/password`. You can go to [`http://localhost:7474/`](http://localhost:7474/) for the browser GUI.
+
 
 ## Backup
 Use the `neo4j-shell`, files will be saved to `${NEO4J_HOME}`:
