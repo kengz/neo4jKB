@@ -12,7 +12,7 @@ try {
   });
 } catch (e) {
   console.log(e)
-  console.log("Using externall set env vars if exist.")
+  console.log("Using externally set env vars if exist.")
 }
 
 // dependencies
