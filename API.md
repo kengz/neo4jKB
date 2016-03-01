@@ -99,7 +99,7 @@ Call via KB.cons.<method>
 
 * [cons](#cons) : <code>Object</code>
     * [.now()](#cons.now) ⇒ <code>string</code>
-    * [.legalize(prop, [msg], [hash_by])](#cons.legalize) ⇒ <code>JSON</code>
+    * [.legalize(prop, [res], [hash_by])](#cons.legalize) ⇒ <code>JSON</code>
     * [.illegalize(prop)](#cons.illegalize) ⇒ <code>JSON</code>
     * [.isLegalSentence(str)](#cons.isLegalSentence) ⇒ <code>Boolean</code>
 
@@ -110,7 +110,7 @@ Generates the current timestamp in ISO 8601 format, e.g. 2016-01-22T14:42:27.579
 **Kind**: static method of <code>[cons](#cons)</code>  
 **Returns**: <code>string</code> - ISO 8601 timestamp string, e.g. '2016-01-22T14:42:27.579Z'  
 <a name="cons.legalize"></a>
-### cons.legalize(prop, [msg], [hash_by]) ⇒ <code>JSON</code>
+### cons.legalize(prop, [res], [hash_by]) ⇒ <code>JSON</code>
 Legalize a prop obj by inserting the missing mandatory fields with default values. Automatically flattens the JSON with key delimiter '__' since neo4J doesn't take a deep JSON. Also updates the hash as demanded by 'hash_by', and you can supply the 'hash_by' key as an argument. Mutates the object. Used mainly for testing. Use with care.
 
 **Kind**: static method of <code>[cons](#cons)</code>  
@@ -119,7 +119,7 @@ Legalize a prop obj by inserting the missing mandatory fields with default value
 | Param | Type | Description |
 | --- | --- | --- |
 | prop | <code>JSON</code> | The properties object for KB node. |
-| [msg] | <code>JSON</code> | For the robot to extract user id. |
+| [res] | <code>JSON</code> | For the robot to extract user id. |
 | [hash_by] | <code>string</code> | Specify and set the hash_by key and update it internally. |
 
 **Example**  
