@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "istanbul cover ./node_modules/.bin/_mocha -i **/lib/neo4jKB.js",
-    "doc": "jsdoc2md ./lib/*.js > API.md"
+    "doc": "jsdoc2md ./lib/*.js > API.md",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -27,7 +29,8 @@
   "dependencies": {
     "bluebird": "^3.1.5",
     "lomath": "latest",
-    "reqscraper": "latest"
+    "reqscraper": "latest",
+    "snyk": "^1.88.0"
   },
   "devDependencies": {
     "chai": "^3.4.1",
@@ -37,5 +40,6 @@
     "istanbul": "^0.4.2",
     "mocha": "^2.4.4",
     "node-env-file": "^0.1.8"
-  }
+  },
+  "snyk": true
 }
